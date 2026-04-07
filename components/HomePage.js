@@ -9,6 +9,7 @@ import {
 } from "@/lib/full-site-data";
 import { SiteChrome } from "@/components/SiteChrome";
 import { GoogleFeedbackSection } from "@/components/GoogleFeedbackSection";
+import { HeroGoogleBadge } from "@/components/HeroGoogleBadge";
 
 function WhyIcon({ title }) {
   if (title === "Safety Promise") {
@@ -180,6 +181,10 @@ export function HomePage() {
                   <a href={contact.whatsapp} target="_blank" rel="noreferrer">WhatsApp</a>
                 </div>
               </div>
+            </div>
+
+            <div className="hero-aside">
+              <HeroGoogleBadge />
             </div>
           </div>
         </section>
