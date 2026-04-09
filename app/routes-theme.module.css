@@ -1,0 +1,655 @@
+.page {
+  --page-bg: #f5f4ee;
+  --panel: rgba(255, 255, 255, 0.84);
+  --panel-strong: #ffffff;
+  --ink: #173220;
+  --muted: #5b685d;
+  --line: rgba(23, 50, 32, 0.1);
+  --line-strong: rgba(23, 50, 32, 0.16);
+  --lime: #caef57;
+  --lime-deep: #b7e13d;
+  --shadow: 0 24px 70px rgba(18, 35, 23, 0.08);
+  --shadow-strong: 0 34px 90px rgba(10, 22, 14, 0.16);
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left, rgba(202, 239, 87, 0.12), transparent 24%),
+    linear-gradient(180deg, #fafaf5 0%, var(--page-bg) 100%);
+  color: var(--ink);
+  padding-bottom: clamp(4rem, 8vw, 6rem);
+}
+
+.page a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.page h1,
+.page h2,
+.page h3,
+.page strong {
+  font-family: Cantarell, "Segoe UI", sans-serif;
+}
+
+.hero,
+.section {
+  width: min(1440px, calc(100% - 2rem));
+  margin: 0 auto;
+}
+
+.hero {
+  padding-top: clamp(7.75rem, 12vw, 9.5rem);
+}
+
+.heroShell {
+  display: grid;
+  grid-template-columns: minmax(0, 1.02fr) minmax(22rem, 0.98fr);
+  gap: clamp(1.5rem, 4vw, 4rem);
+  align-items: center;
+}
+
+.heroCopy {
+  display: grid;
+  gap: 1.1rem;
+  align-content: center;
+  animation: fadeUp 700ms ease both;
+}
+
+.breadcrumbs,
+.eyebrow,
+.cardEyebrow,
+.statLabel {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.77rem;
+  font-weight: 800;
+}
+
+.breadcrumbs,
+.eyebrow,
+.cardEyebrow,
+.statLabel {
+  color: var(--muted);
+}
+
+.breadcrumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.heroTitle {
+  margin: 0;
+  max-width: 10ch;
+  font-size: clamp(3rem, 6.8vw, 5.8rem);
+  line-height: 0.95;
+  letter-spacing: -0.06em;
+}
+
+.heroLead,
+.heroBody,
+.card p,
+.formIntro p,
+.contentCopy p,
+.infoCard p,
+.galleryCaption,
+.postCard p,
+.ctaPanel p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+.heroLead {
+  max-width: 42rem;
+  font-size: clamp(1.15rem, 1.8vw, 1.45rem);
+  color: #20472b;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.heroActions,
+.ctaActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+}
+
+.primaryButton,
+.secondaryButton,
+.inlineLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  min-height: 3.15rem;
+  border-radius: 999px;
+  transition: transform 180ms ease, box-shadow 180ms ease, background-color 180ms ease, border-color 180ms ease;
+}
+
+.primaryButton {
+  padding: 0.85rem 1.35rem;
+  background: linear-gradient(180deg, var(--lime), var(--lime-deep));
+  color: var(--ink);
+  font-weight: 800;
+  box-shadow: inset 0 -1px 0 rgba(23, 50, 32, 0.08);
+}
+
+.secondaryButton {
+  padding: 0.85rem 1.2rem;
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--line-strong);
+}
+
+.primaryButton svg,
+.inlineLink svg {
+  width: 1rem;
+  height: 1rem;
+  flex: 0 0 auto;
+}
+
+.primaryButton:hover,
+.secondaryButton:hover,
+.card:hover,
+.postCard:hover,
+.galleryCard:hover {
+  transform: translateY(-2px);
+}
+
+.heroVisual {
+  position: relative;
+  min-height: 40rem;
+  animation: fadeUp 820ms ease 120ms both;
+}
+
+.heroImage,
+.heroInset {
+  position: absolute;
+  overflow: hidden;
+  box-shadow: var(--shadow-strong);
+}
+
+.heroImage {
+  inset: 0 2.5rem 3rem 0;
+  border-radius: 2.8rem;
+}
+
+.heroInset {
+  right: 0;
+  bottom: 0;
+  width: min(17rem, 40%);
+  aspect-ratio: 0.86;
+  border-radius: 2rem;
+  border: 8px solid rgba(245, 244, 238, 0.95);
+}
+
+.heroImage img,
+.heroInset img,
+.galleryCard img,
+.postImage img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.heroImage img {
+  animation: drift 18s ease-in-out infinite alternate;
+}
+
+.heroBadge {
+  position: absolute;
+  left: 1.4rem;
+  bottom: 1.2rem;
+  width: min(18rem, 72%);
+  display: grid;
+  gap: 0.55rem;
+  padding: 1.15rem 1.2rem;
+  border: 1px solid rgba(255, 255, 255, 0.62);
+  border-radius: 1.6rem;
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 20px 40px rgba(10, 22, 14, 0.14);
+}
+
+.heroBadge strong {
+  font-size: 2rem;
+  line-height: 1;
+  letter-spacing: -0.06em;
+}
+
+.heroBadge p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.statsGrid,
+.cardGrid,
+.postGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.heroFacts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.heroFact {
+  display: grid;
+  gap: 0.5rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--line);
+  border-radius: 1.35rem;
+  background: rgba(255, 255, 255, 0.64);
+  box-shadow: var(--shadow);
+}
+
+.heroFact strong {
+  font-size: 1rem;
+  line-height: 1.25;
+}
+
+.statCard,
+.card,
+.formPanel,
+.infoCard,
+.postCard,
+.ctaPanel {
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+}
+
+.statCard,
+.card,
+.postCard {
+  padding: 1.4rem;
+  border-radius: 1.7rem;
+  background: rgba(255, 255, 255, 0.86);
+}
+
+.statValue {
+  margin: 0;
+  font-size: clamp(2.6rem, 4vw, 3.8rem);
+  line-height: 1;
+  letter-spacing: -0.06em;
+  font-weight: 900;
+}
+
+.statCard h3,
+.card h3,
+.contentCopy h2,
+.infoCard h3,
+.postCard h3,
+.ctaPanel h2,
+.sectionHeading h2 {
+  margin: 0;
+  letter-spacing: -0.04em;
+}
+
+.statCard h3,
+.card h3,
+.infoCard h3,
+.postCard h3 {
+  font-size: 1.35rem;
+  line-height: 1.15;
+}
+
+.section {
+  padding-top: clamp(4.5rem, 8vw, 6rem);
+}
+
+.sectionHeading {
+  max-width: 50rem;
+  margin-bottom: 1.75rem;
+}
+
+.sectionHeading h2,
+.contentCopy h2,
+.ctaPanel h2 {
+  font-size: clamp(2.3rem, 4.6vw, 4.5rem);
+  line-height: 0.96;
+}
+
+.contentGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(20rem, 0.95fr);
+  gap: clamp(1.2rem, 3vw, 2rem);
+  align-items: start;
+}
+
+.contentCopy,
+.formIntro {
+  display: grid;
+  gap: 1rem;
+}
+
+.infoCard {
+  display: grid;
+  gap: 1rem;
+  padding: 1.55rem;
+  border-radius: 2rem;
+  background: linear-gradient(180deg, #ffffff 0%, #f1f4ea 100%);
+}
+
+.infoList {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.infoList a {
+  width: fit-content;
+  color: var(--muted);
+}
+
+.formShell {
+  display: grid;
+  grid-template-columns: minmax(0, 1.02fr) minmax(20rem, 0.98fr);
+  gap: 1rem;
+}
+
+.formPanel {
+  padding: clamp(1.4rem, 2.5vw, 2rem);
+  border-radius: 2rem;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.formGrid {
+  display: grid;
+  gap: 0.95rem;
+  margin-top: 1.35rem;
+}
+
+.formGrid label {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.formGrid span {
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.78rem;
+}
+
+.formGrid input,
+.formGrid textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 0.95rem 1rem;
+  background: rgba(255, 255, 255, 0.86);
+  font: inherit;
+  color: var(--ink);
+  transition: border-color 180ms ease, box-shadow 180ms ease, background-color 180ms ease;
+}
+
+.formGrid input:focus,
+.formGrid textarea:focus {
+  outline: none;
+  border-color: rgba(183, 225, 61, 0.8);
+  box-shadow: 0 0 0 4px rgba(202, 239, 87, 0.14);
+  background: #ffffff;
+}
+
+.hoursList {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.hourRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--line);
+  color: var(--muted);
+}
+
+.galleryGrid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.galleryCard {
+  position: relative;
+  overflow: hidden;
+  min-height: 18rem;
+  border-radius: 2rem;
+  box-shadow: var(--shadow-strong);
+  transition: transform 220ms ease, box-shadow 220ms ease;
+}
+
+.galleryCard img {
+  transition: transform 360ms ease;
+}
+
+.galleryCard:hover img {
+  transform: scale(1.04);
+}
+
+.galleryLarge {
+  grid-column: span 7;
+}
+
+.galleryMedium {
+  grid-column: span 5;
+}
+
+.gallerySquare {
+  grid-column: span 4;
+}
+
+.galleryWide {
+  grid-column: span 12;
+}
+
+.galleryOverlay {
+  position: absolute;
+  inset: auto 0 0;
+  padding: 1rem 1.1rem;
+  background: linear-gradient(180deg, rgba(10, 23, 14, 0), rgba(10, 23, 14, 0.82));
+}
+
+.galleryCaption {
+  color: #f6faef;
+  font-weight: 700;
+}
+
+.postCard {
+  display: grid;
+  gap: 1rem;
+  transition: transform 220ms ease, box-shadow 220ms ease;
+}
+
+.postImage {
+  overflow: hidden;
+  border-radius: 1.35rem;
+  aspect-ratio: 1.2;
+}
+
+.postImage img {
+  transition: transform 360ms ease;
+}
+
+.postCard:hover .postImage img {
+  transform: scale(1.04);
+}
+
+.inlineLink {
+  width: fit-content;
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--ink);
+}
+
+.ctaPanel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: clamp(1.5rem, 3vw, 2.3rem);
+  border-radius: 2.2rem;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(240, 244, 232, 0.94));
+}
+
+.ctaPanel > div:first-child {
+  max-width: 46rem;
+  display: grid;
+  gap: 0.9rem;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes drift {
+  from {
+    transform: scale(1.04) translate3d(-1%, -1%, 0);
+  }
+  to {
+    transform: scale(1.1) translate3d(1%, 1%, 0);
+  }
+}
+
+@media (max-width: 1180px) {
+  .heroShell,
+  .contentGrid,
+  .formShell,
+  .ctaPanel {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .heroVisual,
+  .heroImage {
+    min-height: 34rem;
+  }
+
+  .statsGrid,
+  .heroFacts,
+  .cardGrid,
+  .postGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .galleryGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .galleryLarge,
+  .galleryMedium,
+  .gallerySquare,
+  .galleryWide {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 760px) {
+  .hero,
+  .section {
+    width: calc(100% - 1rem);
+  }
+
+  .hero {
+    padding-top: 8.25rem;
+  }
+
+  .heroTitle {
+    font-size: clamp(2.7rem, 12vw, 4.4rem);
+  }
+
+  .heroLead {
+    font-size: 1.05rem;
+  }
+
+  .heroActions,
+  .ctaActions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .primaryButton,
+  .secondaryButton {
+    width: 100%;
+  }
+
+  .heroVisual {
+    min-height: 28rem;
+  }
+
+  .heroImage {
+    inset: 0 0 2rem 0;
+    min-height: 26rem;
+    border-radius: 1.8rem;
+  }
+
+  .heroInset {
+    right: 0.6rem;
+    bottom: 0;
+    width: 9rem;
+    border-width: 5px;
+    border-radius: 1.25rem;
+  }
+
+  .heroBadge {
+    left: 0.8rem;
+    right: 0.8rem;
+    bottom: 0.8rem;
+    width: auto;
+    padding: 1rem;
+  }
+
+  .sectionHeading h2,
+  .contentCopy h2,
+  .ctaPanel h2 {
+    font-size: clamp(2rem, 10vw, 3.3rem);
+  }
+
+  .statCard,
+  .card,
+  .formPanel,
+  .infoCard,
+  .postCard,
+  .ctaPanel,
+  .galleryCard {
+    border-radius: 1.5rem;
+  }
+
+  .galleryGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heroCopy,
+  .heroVisual,
+  .heroImage img {
+    animation: none;
+  }
+
+  .primaryButton,
+  .secondaryButton,
+  .card,
+  .galleryCard,
+  .galleryCard img,
+  .postCard,
+  .postImage img,
+  .inlineLink,
+  .formGrid input,
+  .formGrid textarea {
+    transition: none;
+  }
+}

@@ -1,295 +1,247 @@
 import Link from "next/link";
-import {
-  about,
-  contact,
-  homeProofs,
-  portfolioImages,
-  services,
-  siteMeta,
-} from "@/lib/full-site-data";
-import { SiteChrome } from "@/components/SiteChrome";
-import { GoogleFeedbackSection } from "@/components/GoogleFeedbackSection";
-import { HeroGoogleBadge } from "@/components/HeroGoogleBadge";
+import { contact, portfolioImages, services } from "@/lib/full-site-data";
+import styles from "./HomePage.module.css";
+import { SiteHeader } from "@/components/SiteHeader";
+import { SiteFooter } from "@/components/SiteFooter";
 
-function WhyIcon({ title }) {
-  if (title === "Safety Promise") {
-    return (
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path
-          d="M12 3l7 3.2v5.4c0 4.4-2.9 8.4-7 9.8-4.1-1.4-7-5.4-7-9.8V6.2L12 3z"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.8"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M8.7 12.3l2.1 2.2 4.6-5"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.8"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    );
-  }
+const reviewAvatars = [
+  "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&w=120",
+  "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=120",
+  "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=120",
+];
+const stats = [
+  ["250+", "Projects delivered"],
+  ["4.9", "Average client rating"],
+  ["1 crew", "Design, build, and upkeep"],
+];
+const heroImage =
+  "https://images.pexels.com/photos/33235614/pexels-photo-33235614.jpeg?auto=compress&cs=tinysrgb&w=2200";
 
-  if (title === "Satisfaction Guaranteed") {
-    return (
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <circle cx="12" cy="10" r="6.6" fill="none" stroke="currentColor" strokeWidth="1.8" />
-        <path
-          d="M9.2 10.2l1.8 1.9 3.9-4.2"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.8"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M8.7 15.4l-0.8 4.1 4.1-2.1 4.1 2.1-0.8-4.1"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.8"
-          strokeLinejoin="round"
-        />
-      </svg>
-    );
-  }
-
+function ArrowIcon() {
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path
-        d="M12 3.9l2.4 5 5.5 0.8-4 3.9 1 5.5-4.9-2.6-4.9 2.6 1-5.5-4-3.9 5.5-0.8 2.4-5z"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinejoin="round"
-      />
+      <path d="M6 12h12m-5-5 5 5-5 5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
 
-function QuoteForm() {
+function StarIcon() {
   return (
-    <form className="quote-form contact-editorial-form reveal">
-      <label>
-        <span>Name</span>
-        <input type="text" placeholder="Your name" />
-      </label>
-      <label>
-        <span>Email</span>
-        <input type="email" placeholder="Your email" />
-      </label>
-      <label>
-        <span>Phone</span>
-        <input type="tel" placeholder="Your phone number" />
-      </label>
-      <label>
-        <span>Let us know the details of what you are looking for, and we'll contact you with a quote.</span>
-        <textarea rows={5} placeholder="Let us know the details of what you are looking for, and we'll contact you with a quote." />
-      </label>
-      <button className="button button-dark" type="submit">Send</button>
-    </form>
-  );
-}
-
-function ServicesMarquee() {
-  const marqueeServices = [...services, ...services];
-
-  return (
-    <section className="services-marquee-section" id="services">
-      <div className="services-marquee-shell">
-        <div className="services-marquee-heading reveal">
-          <p className="eyebrow">Services</p>
-          <h2>Landscaping and hardscaping services across the GTA</h2>
-        </div>
-
-        <div className="services-marquee-stack">
-          <div className="services-marquee-row">
-            <div className="services-marquee-track">
-              {marqueeServices.map((service, index) => (
-                <Link
-                  key={`row-one-${service.slug}-${index}`}
-                  className="services-marquee-card"
-                  href={`/services/${service.slug}`}
-                >
-                  <div className="services-marquee-media">
-                    <img src={service.image} alt={service.name} loading="lazy" />
-                  </div>
-                  <div className="services-marquee-overlay" />
-                  <div className="services-marquee-copy">
-                    <p className="eyebrow">Service</p>
-                    <h3>{service.name}</h3>
-                    <p>{service.kicker}</p>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
-
-          <div className="services-marquee-row is-reverse">
-            <div className="services-marquee-track">
-              {marqueeServices.slice().reverse().map((service, index) => (
-                <Link
-                  key={`row-two-${service.slug}-${index}`}
-                  className="services-marquee-card"
-                  href={`/services/${service.slug}`}
-                >
-                  <div className="services-marquee-media">
-                    <img src={service.image} alt={service.name} loading="lazy" />
-                  </div>
-                  <div className="services-marquee-overlay" />
-                  <div className="services-marquee-copy">
-                    <p className="eyebrow">Service</p>
-                    <h3>{service.name}</h3>
-                    <p>{service.description}</p>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="m12 2.8 2.6 5.4 5.9.9-4.2 4 1 5.8-5.3-2.8-5.3 2.8 1-5.8-4.2-4 5.9-.9L12 2.8Z" fill="currentColor" />
+    </svg>
   );
 }
 
 export function HomePage() {
+  const featuredServices = services.slice(0, 3);
+  const gallery = portfolioImages.slice(0, 3);
+  const marqueeServices = services;
+
   return (
-    <SiteChrome>
-      <main>
-        <section className="hero-stage">
-          <div className="hero-media-layer" aria-hidden="true">
-            <img className="hero-media" src={siteMeta.heroImage} alt="HR Greenroots landscaping project" />
-            <div className="hero-media-gradient" />
-            <div className="hero-media-vignette" />
-            <div className="hero-media-glow" />
-          </div>
+    <main className={styles.page}>
+      <section className={styles.hero}>
+        <div className={styles.topbar}>
+          <SiteHeader mode="overlay" />
+        </div>
 
-          <div className="hero-shell">
-            <div className="hero-copy reveal is-visible">
-              <p className="eyebrow">{siteMeta.heroEyebrow}</p>
-              <h1>{siteMeta.heroTitle}</h1>
-              <div className="hero-actions">
-                <Link className="button" href="/contact">Get a Free Quote</Link>
-                <Link className="button button-outline" href="/portfolio">View Portfolio</Link>
+        <div className={styles.stage}>
+          <img className={styles.stageImage} src={heroImage} alt="Aerial view of a landscaped property with pathways and garden beds" />
+          <div className={styles.stageShade} />
+
+          <div className={styles.stageContent}>
+            <div className={styles.copy}>
+              <p className={styles.kicker}>Landscape Design &amp; Build</p>
+              <h1>Professional Landscaping Solutions</h1>
+              <p className={styles.lead}>
+                We provide end-to-end landscaping services for homeowners, businesses,
+                and large-scale properties, combining expert design, efficient execution,
+                and long-term maintenance solutions.
+              </p>
+              <div className={styles.actions}>
+                <Link className={styles.primaryButton} href="/portfolio">
+                  <span>View Our Projects</span>
+                  <ArrowIcon />
+                </Link>
+                <Link className={styles.secondaryButton} href="/contact">Start Your Estimate</Link>
               </div>
-              <div className="hero-bottom-bar">
-                <div className="hero-contact-bar">
-                  <a href={contact.phoneHref}>{contact.phoneDisplay}</a>
-                  <a href={contact.whatsapp} target="_blank" rel="noreferrer">WhatsApp</a>
+            </div>
+
+            <aside className={styles.reviewCard}>
+              <div className={styles.reviewHead}>
+                <div className={styles.reviewAvatars} aria-hidden="true">
+                  {reviewAvatars.map((avatar) => <img key={avatar} src={avatar} alt="" />)}
                 </div>
+                <p>Based on verified client reviews</p>
               </div>
-            </div>
-
-            <div className="hero-aside">
-              <HeroGoogleBadge />
-            </div>
+              <p className={styles.reviewQuote}>
+                Our landscape has never looked better, professional and always on time.
+              </p>
+              <div className={styles.reviewFoot}>
+                <div className={styles.scoreWrap}>
+                  <span className={styles.score}>4.9</span>
+                  <StarIcon />
+                </div>
+                <p>Average client rating</p>
+              </div>
+            </aside>
           </div>
-        </section>
+        </div>
+      </section>
 
-        <ServicesMarquee />
+      <section className={styles.intro} id="about">
+        <div>
+          <p className={styles.sectionEyebrow}>Why Homeowners Call Us</p>
+          <h2>Built for curb appeal, usability, and clean long-term upkeep.</h2>
+        </div>
+        <p>
+          HR Greenroots brings planting, hardscape, and maintenance into one coordinated
+          service, so the result feels intentional on day one and still looks sharp after the season changes.
+        </p>
+      </section>
 
-        <section className="section" id="portfolio">
-          <div className="section-heading reveal">
-            <p className="eyebrow">Portfolio</p>
-            <h2>Real outdoor work from HR Greenroots projects and service imagery</h2>
+      <section className={styles.stats}>
+        {stats.map(([value, label]) => (
+          <article key={label} className={styles.statCard}>
+            <p className={styles.statValue}>{value}</p>
+            <h3>{label}</h3>
+          </article>
+        ))}
+      </section>
+
+      <section className={styles.services} id="services">
+        <div className={styles.sectionRow}>
+          <div>
+            <p className={styles.sectionEyebrow}>Services</p>
+            <h2>From front-yard upgrades to full outdoor transformations.</h2>
           </div>
-          <div className="gallery-grid">
-            {portfolioImages.map((image, index) => (
-              <Link key={`${image.src}-${index}`} className="gallery-card reveal" href="/portfolio">
-                <img src={image.src} alt={image.alt} loading="lazy" />
-              </Link>
-            ))}
+          <Link className={styles.inlineLink} href="/portfolio">Explore completed work <ArrowIcon /></Link>
+        </div>
+
+        <div className={styles.serviceGrid}>
+          {featuredServices.map((service) => (
+            <article key={service.slug} className={styles.serviceCard}>
+              <div className={styles.serviceImage}><img src={service.image} alt={service.name} loading="lazy" /></div>
+              <div className={styles.serviceBody}>
+                <p className={styles.cardEyebrow}>Featured Service</p>
+                <h3>{service.name}</h3>
+                <p>{service.description}</p>
+                <Link className={styles.inlineLink} href={`/services/${service.slug}`}>Learn more <ArrowIcon /></Link>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className={styles.marqueeSection}>
+        <div className={styles.marqueeHeader}>
+          <div>
+            <p className={styles.sectionEyebrow}>All Services</p>
+            <h2>Browse the full scope in one continuous pass.</h2>
           </div>
-        </section>
+          <Link className={styles.inlineLink} href="/contact">Talk through your project <ArrowIcon /></Link>
+        </div>
 
-        <section className="about-immersive-section" id="about">
-          <div className="about-immersive-shell">
-            <div className="about-immersive-copy reveal">
-              <p className="eyebrow">{about.heading}</p>
-              <h2>{about.missionHeading}</h2>
-              {about.body.map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
-              ))}
-            </div>
-            <div className="about-immersive-media reveal">
-              <img src={about.image} alt="HR Greenroots landscaping mission" loading="lazy" />
-            </div>
-          </div>
-        </section>
-
-        <section className="why-feature" id="why-choose-us">
-          <div className="why-feature-shell">
-            <div className="why-feature-visual reveal">
-              <div className="why-feature-image why-feature-image-main">
-                <img src={portfolioImages[0].src} alt={portfolioImages[0].alt} loading="lazy" />
-              </div>
-              <div className="why-feature-accent" aria-hidden="true">
-                <span />
-                <span />
-                <span />
-              </div>
-              <div className="why-feature-image why-feature-image-secondary">
-                <img src={portfolioImages[3].src} alt={portfolioImages[3].alt} loading="lazy" />
-              </div>
-            </div>
-
-            <div className="why-feature-copy">
-              <div className="why-feature-intro reveal">
-                <p className="eyebrow">Why Choose Us</p>
-                <h2>Landscaping built on consistency, care, and execution.</h2>
-                <p>
-                  HR Greenroots Landscaping provides professional landscaping services in the GTA,
-                  specializing in lawn care, garden design, and hardscaping.
-                </p>
-              </div>
-
-              <div className="why-feature-list">
-                {homeProofs.map((item, index) => (
-                  <article
-                    key={item.title}
-                    className={`why-feature-item reveal${index === 0 ? " is-highlighted" : ""}`}
+        <div className={styles.marqueeShell}>
+          <div className={styles.marqueeRail}>
+            {[0, 1].map((group) => (
+              <div key={group} className={styles.marqueeGroup} aria-hidden={group === 1}>
+                {marqueeServices.map((service) => (
+                  <Link
+                    key={`${group}-${service.slug}`}
+                    className={styles.marqueeCard}
+                    href={`/services/${service.slug}`}
+                    tabIndex={group === 1 ? -1 : undefined}
                   >
-                    <div className="why-feature-item-head">
-                      <span className="why-feature-check" aria-hidden="true">
-                        <WhyIcon title={item.title} />
-                      </span>
-                      <h3>{item.title}</h3>
+                    <div className={styles.marqueeMedia}>
+                      <img src={service.image} alt={service.name} loading="lazy" />
                     </div>
-                    <p>{item.text}</p>
-                  </article>
+                    <div className={styles.marqueeOverlay} />
+                    <div className={styles.marqueeCopy}>
+                      <p className={styles.cardEyebrow}>Service</p>
+                      <h3>{service.name}</h3>
+                      <p>{service.heroBody ?? service.description}</p>
+                    </div>
+                  </Link>
                 ))}
               </div>
-            </div>
+            ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        <GoogleFeedbackSection />
-
-        <section className="contact-editorial section" id="contact">
-          <div className="contact-editorial-shell">
-            <div className="contact-editorial-copy reveal">
-              <p className="eyebrow">Contact</p>
-              <h2>{contact.heading}</h2>
-              <p>{contact.body}</p>
-
-              <div className="contact-editorial-details">
-                <p>{contact.address}</p>
-                <p>{contact.serviceAreas}</p>
-              </div>
-
-              <div className="contact-editorial-actions">
-                <a className="button button-dark" href={contact.phoneHref}>{contact.phoneDisplay}</a>
-                <a className="button button-dark-outline" href={contact.whatsapp} target="_blank" rel="noreferrer">WhatsApp</a>
-              </div>
+      <section className={styles.projects} id="projects">
+        <div className={styles.projectFeature}>
+          <div className={styles.projectImage}><img src={gallery[1].src} alt={gallery[1].alt} loading="lazy" /></div>
+          <div className={styles.projectPanel}>
+            <p className={styles.sectionEyebrow}>Project Focus</p>
+            <h2>Layouts that balance movement, planting depth, and durable materials.</h2>
+            <div className={styles.projectList}>
+              <article>
+                <span>01</span>
+                <div>
+                  <h3>Structured planting plans</h3>
+                  <p>Layered greens, edge definition, and seasonal color chosen for Ontario properties.</p>
+                </div>
+              </article>
+              <article>
+                <span>02</span>
+                <div>
+                  <h3>Hardscape with purpose</h3>
+                  <p>Walkways, interlock, retaining walls, and deck zones that improve circulation.</p>
+                </div>
+              </article>
+              <article>
+                <span>03</span>
+                <div>
+                  <h3>Maintenance after install</h3>
+                  <p>We plan for how the space will be maintained, not just how it will photograph on day one.</p>
+                </div>
+              </article>
             </div>
-
-            <QuoteForm />
+            <Link className={styles.inlineLink} href="/portfolio">Browse project gallery <ArrowIcon /></Link>
           </div>
-        </section>
-      </main>
-    </SiteChrome>
+        </div>
+
+        <div className={styles.galleryRow}>
+          {gallery.map((item, index) => (
+            <article key={`${item.src}-${index}`} className={styles.galleryCard}>
+              <img src={item.src} alt={item.alt} loading="lazy" />
+              <div><p>{item.alt}</p></div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className={styles.contact} id="contact">
+        <div className={styles.contactPanel}>
+          <div className={styles.contactCopy}>
+            <p className={styles.sectionEyebrow}>Contact</p>
+            <h2>Tell us what you want the property to do better.</h2>
+            <p>
+              Whether the goal is a cleaner front yard, a more usable backyard, or reliable seasonal
+              maintenance, we can walk the site and recommend a practical scope.
+            </p>
+          </div>
+
+          <aside className={styles.contactCard}>
+            <p className={styles.cardEyebrow}>Service Area</p>
+            <h3>Mississauga &amp; the GTA</h3>
+            <p>{contact.serviceAreas}</p>
+            <div className={styles.contactLinks}>
+              <a href={contact.phoneHref}>{contact.phoneDisplay}</a>
+              <a href={contact.whatsapp} target="_blank" rel="noreferrer">WhatsApp</a>
+              <a href={contact.mapHref} target="_blank" rel="noreferrer">View address</a>
+            </div>
+            <Link className={styles.primaryButton} href="/contact">
+              <span>Request a Quote</span>
+              <ArrowIcon />
+            </Link>
+          </aside>
+        </div>
+      </section>
+
+      <SiteFooter />
+    </main>
   );
 }
