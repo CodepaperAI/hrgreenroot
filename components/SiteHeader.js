@@ -204,6 +204,10 @@ export function SiteHeader({ mode = "overlay" }) {
                   </Link>
                 ))}
               </div>
+              <div className={styles.dropdownScrollHint} aria-hidden="true">
+                <span>Scroll for more services</span>
+                <ChevronIcon />
+              </div>
             </div>
           </div>
 

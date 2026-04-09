@@ -93,6 +93,11 @@ export function SiteFooter() {
           </section>
 
           <section className={styles.column}>
+            <h4>Service Areas</h4>
+            <p className={styles.serviceAreas}>{contact.serviceAreas}</p>
+          </section>
+
+          <section className={styles.column}>
             <h4>Get In Touch</h4>
             <div className={styles.contactStack}>
               <a href={contact.phoneHref}>{contact.phoneDisplay}</a>

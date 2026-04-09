@@ -2,6 +2,7 @@ import Link from "next/link";
 import { SiteChrome } from "@/components/SiteChrome";
 import { getServiceImageAlt, portfolioImages, services } from "@/lib/full-site-data";
 import styles from "../routes-theme.module.css";
+import { PortfolioStats } from "./PortfolioStats";
 
 const title = "Landscaping Project Portfolio";
 const description =
@@ -48,12 +49,6 @@ function ArrowIcon() {
 }
 
 export default function PortfolioPage() {
-  const stats = [
-    ["Projects", `${portfolioImages.length}+`],
-    ["Focus", "Planting + hardscape"],
-    ["Coverage", "Homes + commercial"],
-  ];
-
   return (
     <SiteChrome>
       <main className={styles.page}>
@@ -85,14 +80,7 @@ export default function PortfolioPage() {
                 </Link>
               </div>
 
-              <div className={styles.heroFacts}>
-                {stats.map(([label, value]) => (
-                  <article key={label} className={`${styles.heroFact} reveal`}>
-                    <p className={styles.statLabel}>{label}</p>
-                    <strong>{value}</strong>
-                  </article>
-                ))}
-              </div>
+              <PortfolioStats />
             </div>
 
             <div className={styles.heroVisual}>

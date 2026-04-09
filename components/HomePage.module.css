@@ -178,7 +178,7 @@
 .navCta,
 .primaryButton {
   padding: 0.85rem 1.35rem;
-  color: var(--ink);
+  color: #fff !important;
   background: var(--lime);
   font-weight: 700;
   box-shadow: inset 0 -1px 0 rgba(22, 49, 31, 0.08);
@@ -186,7 +186,7 @@
 
 .secondaryButton {
   padding: 0.85rem 1.2rem;
-  color: #f4f9ef;
+  color: #fff !important;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.24);
   backdrop-filter: blur(16px);
@@ -487,6 +487,7 @@
   width: fit-content;
   font-size: 0.95rem;
   font-weight: 800;
+  color: #fff;
 }
 
 .serviceGrid,

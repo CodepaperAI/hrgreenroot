@@ -1,8 +1,12 @@
+"use client";
+
 import Link from "next/link";
 import { contact, getServiceImageAlt, portfolioImages, services } from "@/lib/full-site-data";
 import styles from "./HomePage.module.css";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
+import { useCountUp } from "@/hooks/useCountUp";
+import { useInView } from "@/hooks/useInView";
 
 const reviewAvatars = [
   "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&w=120",
@@ -29,6 +33,17 @@ function StarIcon() {
     <svg viewBox="0 0 24 24" aria-hidden="true">
       <path d="m12 2.8 2.6 5.4 5.9.9-4.2 4 1 5.8-5.3-2.8-5.3 2.8 1-5.8-4.2-4 5.9-.9L12 2.8Z" fill="currentColor" />
     </svg>
+  );
+}
+
+function StatCard({ value, label }) {
+  const [ref, inView] = useInView({ threshold: 0.5 });
+  const count = useCountUp(value, 2000, inView);
+  return (
+    <article ref={ref} className={styles.statCard}>
+      <p className={styles.statValue}>{inView ? count : "0"}</p>
+      <h3>{label}</h3>
+    </article>
   );
 }
 
@@ -105,10 +120,7 @@ export function HomePage() {
 
       <section className={styles.stats}>
         {stats.map(([value, label]) => (
-          <article key={label} className={styles.statCard}>
-            <p className={styles.statValue}>{value}</p>
-            <h3>{label}</h3>
-          </article>
+          <StatCard key={label} value={value} label={label} />
         ))}
       </section>
 

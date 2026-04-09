@@ -205,23 +205,23 @@ main { padding-top: 0; }
   transition: transform 180ms ease, background-color 180ms ease, color 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
 }
 .header-cta {
-  color: #fffaf2;
+  color: #fff !important;
   background: linear-gradient(180deg, #2d241c, #1b1612);
   border-color: rgba(223, 197, 158, 0.16);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 .button-solid {
-  color: #fffaf2;
+  color: #fff !important;
   background: linear-gradient(180deg, #2f241c, #1d1712);
   border-color: rgba(223, 197, 158, 0.22);
 }
 .button-outline {
-  color: #fff7ec;
+  color: #fff !important;
   background: rgba(255, 255, 255, 0.06);
   border-color: rgba(255, 243, 221, 0.24);
 }
 .button-dark-outline {
-  color: var(--ink);
+  color: #fff !important;
   background: transparent;
   border-color: var(--line);
 }
@@ -1569,7 +1569,6 @@ input, textarea { width: 100%; border: 1px solid var(--line); border-radius: 18p
   *, *::before, *::after { animation: none !important; transition: none !important; }
   .services-marquee-track { transform: none !important; }
 }
-
 
 
 
