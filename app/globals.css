@@ -351,8 +351,8 @@ main { padding-top: 0; }
   padding: 1.35rem;
   border: 1px solid rgba(255, 244, 228, 0.16);
   border-radius: 2rem;
-  background: linear-gradient(180deg, rgba(200, 231, 91, 0.97), rgba(185, 219, 73, 0.94));
-  color: #18200f;
+  background: linear-gradient(180deg, rgba(43, 98, 42, 0.97), rgba(41, 95, 40, 0.94));
+  color: #f7fbf5;
   box-shadow: 0 24px 60px rgba(8, 6, 4, 0.26);
 }
 .hero-review-head {
@@ -381,11 +381,12 @@ main { padding-top: 0; }
   font-size: 0.9rem;
   font-weight: 700;
   letter-spacing: 0.03em;
+  color: rgba(247, 251, 245, 0.96);
 }
 .hero-review-meta,
 .hero-review-caption,
 .hero-review-foot span {
-  color: rgba(24, 32, 15, 0.72);
+  color: rgba(247, 251, 245, 0.82);
   font-size: 0.8rem;
 }
 .hero-review-score-row {
@@ -403,7 +404,7 @@ main { padding-top: 0; }
 .hero-review-stars {
   display: flex;
   gap: 0.2rem;
-  color: #20301a;
+  color: #ffe08a;
 }
 .hero-review-stars svg {
   width: 1rem;
@@ -412,9 +413,10 @@ main { padding-top: 0; }
 .hero-review-quote {
   margin: 1rem 0 0;
   padding-top: 1rem;
-  border-top: 1px solid rgba(24, 32, 15, 0.16);
+  border-top: 1px solid rgba(247, 251, 245, 0.16);
   font-size: 1rem;
   line-height: 1.55;
+  color: #ffffff;
 }
 .hero-review-foot {
   display: flex;
@@ -428,6 +430,7 @@ main { padding-top: 0; }
   font-weight: 700;
   letter-spacing: 0.05em;
   text-transform: uppercase;
+  color: #ffffff;
 }
 
 h2 { margin: 0 0 1rem; font-size: clamp(2rem, 4vw, 3.6rem); line-height: 1.02; }

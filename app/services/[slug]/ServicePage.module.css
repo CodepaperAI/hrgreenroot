@@ -6,13 +6,13 @@
   --muted: #5b685d;
   --line: rgba(23, 50, 32, 0.1);
   --line-strong: rgba(23, 50, 32, 0.16);
-  --lime: #caef57;
-  --lime-deep: #b7e13d;
+  --lime: #2b622a;
+  --lime-deep: #295f28;
   --shadow: 0 24px 70px rgba(18, 35, 23, 0.08);
   --shadow-strong: 0 34px 90px rgba(10, 22, 14, 0.16);
   min-height: 100vh;
   background:
-    radial-gradient(circle at top left, rgba(202, 239, 87, 0.12), transparent 24%),
+    radial-gradient(circle at top left, rgba(43, 98, 42, 0.12), transparent 24%),
     linear-gradient(180deg, #fafaf5 0%, var(--page-bg) 100%);
   color: var(--ink);
   padding-bottom: clamp(4rem, 8vw, 6rem);
@@ -423,7 +423,7 @@
   height: 0.45rem;
   border-radius: 50%;
   background: var(--lime);
-  box-shadow: 0 0 0 4px rgba(202, 239, 87, 0.14);
+  box-shadow: 0 0 0 4px rgba(43, 98, 42, 0.14);
 }
 
 .featureList strong {
@@ -439,6 +439,9 @@
 }
 
 .quickContact a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
   width: fit-content;
   transition: color 180ms ease, transform 180ms ease;
 }
@@ -487,7 +490,7 @@
   width: 3.15rem;
   height: 3.15rem;
   border-radius: 999px;
-  background: rgba(202, 239, 87, 0.9);
+  background: rgba(43, 98, 42, 0.9);
   color: var(--ink);
 }
 
@@ -689,6 +692,10 @@
     bottom: 0.8rem;
     width: auto;
     padding: 1rem;
+  }
+
+  .heroBadge strong {
+    font-size: 1.2rem;
   }
 
   .sectionHeading h2,

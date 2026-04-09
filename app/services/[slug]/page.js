@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { SiteChrome } from "@/components/SiteChrome";
-import { contact, getServiceBySlug, services } from "@/lib/full-site-data";
+import { contact, getServiceBySlug, getServiceImageAlt, services } from "@/lib/full-site-data";
 import styles from "./ServicePage.module.css";
 
 export function generateStaticParams() {
@@ -14,9 +14,33 @@ export function generateMetadata({ params }) {
     return {};
   }
 
+  const title = service.name;
+  const description = service.description;
+  const canonicalPath = `/services/${service.slug}`;
+
   return {
-    title: service.name,
-    description: service.description,
+    title,
+    description,
+    alternates: {
+      canonical: canonicalPath,
+    },
+    openGraph: {
+      title,
+      description,
+      url: canonicalPath,
+      type: "website",
+      images: [
+        {
+          url: service.image,
+          alt: getServiceImageAlt(service),
+        },
+      ],
+    },
+    twitter: {
+      title,
+      description,
+      images: [service.image],
+    },
   };
 }
 
@@ -269,7 +293,7 @@ export default function ServicePage({ params }) {
 
   const gallery = service.gallery?.length
     ? service.gallery
-    : [{ src: service.image, alt: service.name }];
+    : [{ src: service.image, alt: getServiceImageAlt(service) }];
 
   const relatedServices = buildRelatedServices(service);
   const heroFacts = service.heroFacts?.length
@@ -382,7 +406,7 @@ export default function ServicePage({ params }) {
                 style={{ transitionDelay: `${index * 90}ms` }}
               >
                 <div className={styles.relatedMedia}>
-                  <img src={item.image} alt={item.name} loading="lazy" />
+                  <img src={item.image} alt={getServiceImageAlt(item)} loading="lazy" />
                 </div>
                 <div className={styles.relatedBody}>
                   <p className={styles.cardEyebrow}>Service</p>

@@ -3,9 +3,32 @@ import { SiteChrome } from "@/components/SiteChrome";
 import { blog, portfolioImages, services } from "@/lib/full-site-data";
 import styles from "../routes-theme.module.css";
 
+const title = "Landscaping Tips and Resource Guides";
+const description = blog.body;
+
 export const metadata = {
-  title: "Blog",
-  description: blog.body,
+  title,
+  description,
+  alternates: {
+    canonical: "/blog",
+  },
+  openGraph: {
+    title,
+    description,
+    url: "/blog",
+    type: "website",
+    images: [
+      {
+        url: portfolioImages[2].src,
+        alt: portfolioImages[2].alt,
+      },
+    ],
+  },
+  twitter: {
+    title,
+    description,
+    images: [portfolioImages[2].src],
+  },
 };
 
 function ArrowIcon() {

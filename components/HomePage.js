@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { contact, portfolioImages, services } from "@/lib/full-site-data";
+import { contact, getServiceImageAlt, portfolioImages, services } from "@/lib/full-site-data";
 import styles from "./HomePage.module.css";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -14,8 +14,7 @@ const stats = [
   ["4.9", "Average client rating"],
   ["1 crew", "Design, build, and upkeep"],
 ];
-const heroImage =
-  "https://images.pexels.com/photos/33235614/pexels-photo-33235614.jpeg?auto=compress&cs=tinysrgb&w=2200";
+const heroImage = "/hero-background.jpg";
 
 function ArrowIcon() {
   return (
@@ -46,7 +45,11 @@ export function HomePage() {
         </div>
 
         <div className={styles.stage}>
-          <img className={styles.stageImage} src={heroImage} alt="Aerial view of a landscaped property with pathways and garden beds" />
+          <img
+            className={styles.stageImage}
+            src={heroImage}
+            alt="Aerial view of sod installation with a landscaper working along a curved stone border"
+          />
           <div className={styles.stageShade} />
 
           <div className={styles.stageContent}>
@@ -121,7 +124,7 @@ export function HomePage() {
         <div className={styles.serviceGrid}>
           {featuredServices.map((service) => (
             <article key={service.slug} className={styles.serviceCard}>
-              <div className={styles.serviceImage}><img src={service.image} alt={service.name} loading="lazy" /></div>
+              <div className={styles.serviceImage}><img src={service.image} alt={getServiceImageAlt(service)} loading="lazy" /></div>
               <div className={styles.serviceBody}>
                 <p className={styles.cardEyebrow}>Featured Service</p>
                 <h3>{service.name}</h3>
@@ -154,7 +157,7 @@ export function HomePage() {
                     tabIndex={group === 1 ? -1 : undefined}
                   >
                     <div className={styles.marqueeMedia}>
-                      <img src={service.image} alt={service.name} loading="lazy" />
+                      <img src={service.image} alt={getServiceImageAlt(service)} loading="lazy" />
                     </div>
                     <div className={styles.marqueeOverlay} />
                     <div className={styles.marqueeCopy}>

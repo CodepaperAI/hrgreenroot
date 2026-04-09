@@ -70,13 +70,13 @@
   width: 3.3rem;
   height: 3.3rem;
   border-radius: 1.15rem;
-  background: linear-gradient(180deg, rgba(202, 239, 87, 0.28), rgba(202, 239, 87, 0.1));
+  background: linear-gradient(180deg, rgba(43, 98, 42, 0.28), rgba(43, 98, 42, 0.1));
 }
 
 .leafMark {
   width: 2rem;
   height: 2rem;
-  color: #caef57;
+  color: #2b622a;
 }
 
 .leafMark path {
@@ -138,8 +138,8 @@
   width: 0.45rem;
   height: 0.45rem;
   border-radius: 50%;
-  background: #caef57;
-  box-shadow: 0 0 0 4px rgba(202, 239, 87, 0.16);
+  background: #2b622a;
+  box-shadow: 0 0 0 4px rgba(43, 98, 42, 0.16);
 }
 
 .contactStack {
@@ -178,7 +178,7 @@
 
 .socialLink:hover {
   transform: translateY(-1px);
-  background: #caef57;
+  background: #2b622a;
   color: #173220;
 }
 

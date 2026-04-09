@@ -1,10 +1,35 @@
 import Link from "next/link";
 import { SiteChrome } from "@/components/SiteChrome";
-import { portfolioImages, services } from "@/lib/full-site-data";
+import { getServiceImageAlt, portfolioImages, services } from "@/lib/full-site-data";
 import styles from "../routes-theme.module.css";
 
+const title = "Landscaping Project Portfolio";
+const description =
+  "Browse HR Greenroots Landscaping portfolio images featuring planting, hardscape, interlocking, deck work, and outdoor transformation projects across the GTA.";
+
 export const metadata = {
-  title: "Portfolio",
+  title,
+  description,
+  alternates: {
+    canonical: "/portfolio",
+  },
+  openGraph: {
+    title,
+    description,
+    url: "/portfolio",
+    type: "website",
+    images: [
+      {
+        url: portfolioImages[1].src,
+        alt: portfolioImages[1].alt,
+      },
+    ],
+  },
+  twitter: {
+    title,
+    description,
+    images: [portfolioImages[1].src],
+  },
 };
 
 function ArrowIcon() {
@@ -121,7 +146,7 @@ export default function PortfolioPage() {
             {services.slice(0, 3).map((service, index) => (
               <article key={service.slug} className={`${styles.postCard} reveal`} style={{ transitionDelay: `${index * 90}ms` }}>
                 <div className={styles.postImage}>
-                  <img src={service.image} alt={service.name} loading="lazy" />
+                  <img src={service.image} alt={getServiceImageAlt(service)} loading="lazy" />
                 </div>
                 <p className={styles.cardEyebrow}>Service Connection</p>
                 <h3>{service.name}</h3>

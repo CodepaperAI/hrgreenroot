@@ -3,8 +3,33 @@ import { SiteChrome } from "@/components/SiteChrome";
 import { contact, portfolioImages } from "@/lib/full-site-data";
 import styles from "../routes-theme.module.css";
 
+const title = "Contact HR Greenroots Landscaping";
+const description =
+  "Contact HR Greenroots Landscaping for landscaping, hardscaping, sod, deck, fence, and outdoor project estimates in Mississauga and the GTA.";
+
 export const metadata = {
-  title: "Contact",
+  title,
+  description,
+  alternates: {
+    canonical: "/contact",
+  },
+  openGraph: {
+    title,
+    description,
+    url: "/contact",
+    type: "website",
+    images: [
+      {
+        url: portfolioImages[0].src,
+        alt: portfolioImages[0].alt,
+      },
+    ],
+  },
+  twitter: {
+    title,
+    description,
+    images: [portfolioImages[0].src],
+  },
 };
 
 function ArrowIcon() {

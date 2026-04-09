@@ -6,13 +6,13 @@
   --muted: #5b685d;
   --line: rgba(23, 50, 32, 0.1);
   --line-strong: rgba(23, 50, 32, 0.16);
-  --lime: #caef57;
-  --lime-deep: #b7e13d;
+  --lime: #2b622a;
+  --lime-deep: #295f28;
   --shadow: 0 24px 70px rgba(18, 35, 23, 0.08);
   --shadow-strong: 0 34px 90px rgba(10, 22, 14, 0.16);
   min-height: 100vh;
   background:
-    radial-gradient(circle at top left, rgba(202, 239, 87, 0.12), transparent 24%),
+    radial-gradient(circle at top left, rgba(43, 98, 42, 0.12), transparent 24%),
     linear-gradient(180deg, #fafaf5 0%, var(--page-bg) 100%);
   color: var(--ink);
   padding-bottom: clamp(4rem, 8vw, 6rem);
@@ -342,6 +342,9 @@
 }
 
 .infoList a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
   width: fit-content;
   color: var(--muted);
 }
@@ -384,6 +387,7 @@
   padding: 0.95rem 1rem;
   background: rgba(255, 255, 255, 0.86);
   font: inherit;
+  font-size: 16px;
   color: var(--ink);
   transition: border-color 180ms ease, box-shadow 180ms ease, background-color 180ms ease;
 }
@@ -392,7 +396,7 @@
 .formGrid textarea:focus {
   outline: none;
   border-color: rgba(183, 225, 61, 0.8);
-  box-shadow: 0 0 0 4px rgba(202, 239, 87, 0.14);
+  box-shadow: 0 0 0 4px rgba(43, 98, 42, 0.14);
   background: #ffffff;
 }
 
@@ -612,6 +616,10 @@
     padding: 1rem;
   }
 
+  .heroBadge strong {
+    font-size: 1.25rem;
+  }
+
   .sectionHeading h2,
   .contentCopy h2,
   .ctaPanel h2 {
@@ -630,6 +638,12 @@
 
   .galleryGrid {
     grid-template-columns: 1fr;
+  }
+
+  .hourRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
   }
 }
 
