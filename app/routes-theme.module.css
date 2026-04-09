@@ -27,7 +27,7 @@
 .page h2,
 .page h3,
 .page strong {
-  font-family: Cantarell, "Segoe UI", sans-serif;
+  font-family: var(--font-body);
 }
 
 .hero,
@@ -564,7 +564,7 @@
   }
 
   .hero {
-    padding-top: 8.25rem;
+    padding-top: 11.5rem;
   }
 
   .heroTitle {

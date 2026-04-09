@@ -55,26 +55,30 @@ function ChevronIcon() {
 
 export function SiteHeader({ mode = "overlay" }) {
   const pathname = usePathname();
-  const dropdownRef = useRef(null);
+  const headerRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const headerClassName = mode === "fixed"
-    ? `${styles.header} ${styles.fixed}`
-    : `${styles.header} ${styles.overlay}`;
+    ? `${styles.header} ${styles.fixed} ${isMenuOpen ? styles.menuOpen : ""}`
+    : `${styles.header} ${styles.overlay} ${isMenuOpen ? styles.menuOpen : ""}`;
 
   useEffect(() => {
     setIsOpen(false);
+    setIsMenuOpen(false);
   }, [pathname]);
 
   useEffect(() => {
     function handlePointerDown(event) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      if (headerRef.current && !headerRef.current.contains(event.target)) {
         setIsOpen(false);
+        setIsMenuOpen(false);
       }
     }
 
     function handleEscape(event) {
       if (event.key === "Escape") {
         setIsOpen(false);
+        setIsMenuOpen(false);
       }
     }
 
@@ -89,8 +93,23 @@ export function SiteHeader({ mode = "overlay" }) {
     };
   }, []);
 
+  function handleMenuToggle() {
+    setIsMenuOpen((current) => {
+      const next = !current;
+      if (!next) {
+        setIsOpen(false);
+      }
+      return next;
+    });
+  }
+
+  function handleNavClick() {
+    setIsMenuOpen(false);
+    setIsOpen(false);
+  }
+
   return (
-    <div className={headerClassName}>
+    <div ref={headerRef} className={headerClassName}>
       <Link className={styles.brand} href="/" aria-label="HR Greenroots Landscaping home">
         <span className={styles.brandIcon}>
           <LeafMark />
@@ -101,16 +120,25 @@ export function SiteHeader({ mode = "overlay" }) {
         </span>
       </Link>
 
-      <div className={styles.navWrap}>
+      <button
+        className={styles.menuToggle}
+        type="button"
+        aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+        aria-expanded={isMenuOpen}
+        onClick={handleMenuToggle}
+      >
+        {isMenuOpen ? <CloseIcon /> : <MenuIcon />}
+      </button>
+
+      <div className={`${styles.navWrap} ${isMenuOpen ? styles.navWrapOpen : ""}`}>
         <nav className={styles.nav} aria-label="Primary">
           {primaryLinks.slice(0, 2).map((item) => (
-            <Link key={item.label} className={styles.navLink} href={item.href}>
+            <Link key={item.label} className={styles.navLink} href={item.href} onClick={handleNavClick}>
               {item.label}
             </Link>
           ))}
 
           <div
-            ref={dropdownRef}
             className={`${styles.dropdown} ${isOpen ? styles.dropdownOpen : ""}`}
             onMouseEnter={() => setIsOpen(true)}
             onMouseLeave={() => setIsOpen(false)}
@@ -134,7 +162,7 @@ export function SiteHeader({ mode = "overlay" }) {
                     key={service.slug}
                     className={styles.dropdownLink}
                     href={`/services/${service.slug}`}
-                    onClick={() => setIsOpen(false)}
+                    onClick={handleNavClick}
                   >
                     <span className={styles.dropdownTitle}>{service.name}</span>
                     <span className={styles.dropdownMeta}>Explore this service</span>
@@ -145,17 +173,45 @@ export function SiteHeader({ mode = "overlay" }) {
           </div>
 
           {primaryLinks.slice(2).map((item) => (
-            <Link key={item.label} className={styles.navLink} href={item.href}>
+            <Link key={item.label} className={styles.navLink} href={item.href} onClick={handleNavClick}>
               {item.label}
             </Link>
           ))}
         </nav>
 
-        <Link className={styles.cta} href="/contact">
+        <Link className={styles.cta} href="/contact" onClick={handleNavClick}>
           <span>Request a Quote</span>
           <ArrowIcon />
         </Link>
       </div>
     </div>
+  );
+}
+
+function MenuIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        d="M4 7h16M4 12h16M4 17h16"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+function CloseIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        d="M6 6l12 12M18 6 6 18"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+      />
+    </svg>
   );
 }

@@ -48,7 +48,7 @@
 .brand small,
 .columnWide h3,
 .column h4 {
-  font-family: Cantarell, "Segoe UI", sans-serif;
+  font-family: var(--font-body);
 }
 
 .brand strong {

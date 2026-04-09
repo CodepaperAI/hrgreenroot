@@ -1,7 +1,6 @@
-@font-face { font-family: "Adamina"; src: url("https://img1.wsimg.com/gfonts/s/adamina/v21/j8_r6-DH1bjoc-dwu-reEi5B.woff2") format("woff2"); }
-@font-face { font-family: "Cantarell"; src: url("https://img1.wsimg.com/gfonts/s/cantarell/v17/B50NF7ZDq37KMUvlO015ifJu.woff2") format("woff2"); }
-
 :root {
+  --font-body: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font-display: Georgia, "Times New Roman", serif;
   --bg: #f1eadf;
   --bg-soft: #f8f3eb;
   --ink: #1d1712;
@@ -24,13 +23,13 @@ body {
   background:
     radial-gradient(circle at top left, rgba(191, 159, 118, 0.16), transparent 26%),
     linear-gradient(180deg, #fbf7f0 0%, var(--bg) 42%, var(--bg-soft) 100%);
-  font-family: Cantarell, "Segoe UI", sans-serif;
+  font-family: var(--font-body);
 }
 
 a { color: inherit; text-decoration: none; }
 img { display: block; width: 100%; }
 main { padding-top: 0; }
-.brand, h1, h2, h3, .quote { font-family: Adamina, Georgia, serif; }
+.brand, h1, h2, h3, .quote { font-family: var(--font-display); }
 .section, .site-footer { padding-inline: clamp(1.25rem, 3vw, 3rem); }
 
 .site-header-wrap {
@@ -396,7 +395,7 @@ main { padding-top: 0; }
   margin-top: 1.2rem;
 }
 .hero-review-score {
-  font-family: Adamina, Georgia, serif;
+  font-family: var(--font-display);
   font-size: clamp(3rem, 4vw, 4.6rem);
   line-height: 0.92;
   letter-spacing: -0.05em;
@@ -860,7 +859,7 @@ p { line-height: 1.7; }
 
 .google-feedback-review blockquote {
   margin: 1.6rem 0 0;
-  font-family: Adamina, Georgia, serif;
+  font-family: var(--font-display);
   font-size: clamp(1.7rem, 2.7vw, 2.5rem);
   line-height: 1.5;
 }
