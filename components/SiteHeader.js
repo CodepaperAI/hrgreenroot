@@ -56,6 +56,7 @@ function ChevronIcon() {
 export function SiteHeader({ mode = "overlay" }) {
   const pathname = usePathname();
   const headerRef = useRef(null);
+  const hoverTimerRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const headerClassName = mode === "fixed"
@@ -70,6 +71,7 @@ export function SiteHeader({ mode = "overlay" }) {
   useEffect(() => {
     function handlePointerDown(event) {
       if (headerRef.current && !headerRef.current.contains(event.target)) {
+        clearDropdownTimer();
         setIsOpen(false);
         setIsMenuOpen(false);
       }
@@ -77,6 +79,7 @@ export function SiteHeader({ mode = "overlay" }) {
 
     function handleEscape(event) {
       if (event.key === "Escape") {
+        clearDropdownTimer();
         setIsOpen(false);
         setIsMenuOpen(false);
       }
@@ -87,23 +90,58 @@ export function SiteHeader({ mode = "overlay" }) {
     document.addEventListener("keydown", handleEscape);
 
     return () => {
+      clearDropdownTimer();
       document.removeEventListener("mousedown", handlePointerDown);
       document.removeEventListener("touchstart", handlePointerDown);
       document.removeEventListener("keydown", handleEscape);
     };
   }, []);
 
+  function clearDropdownTimer() {
+    if (hoverTimerRef.current) {
+      window.clearTimeout(hoverTimerRef.current);
+      hoverTimerRef.current = null;
+    }
+  }
+
+  function scheduleDropdownOpen() {
+    clearDropdownTimer();
+    hoverTimerRef.current = window.setTimeout(() => {
+      setIsOpen(true);
+      hoverTimerRef.current = null;
+    }, 1000);
+  }
+
+  function openDropdownImmediately() {
+    clearDropdownTimer();
+    setIsOpen(true);
+  }
+
+  function scheduleDropdownClose() {
+    clearDropdownTimer();
+    hoverTimerRef.current = window.setTimeout(() => {
+      setIsOpen(false);
+      hoverTimerRef.current = null;
+    }, 280);
+  }
+
+  function closeDropdownImmediately() {
+    clearDropdownTimer();
+    setIsOpen(false);
+  }
+
   function handleMenuToggle() {
     setIsMenuOpen((current) => {
       const next = !current;
       if (!next) {
-        setIsOpen(false);
+        closeDropdownImmediately();
       }
       return next;
     });
   }
 
   function handleNavClick() {
+    clearDropdownTimer();
     setIsMenuOpen(false);
     setIsOpen(false);
   }
@@ -140,8 +178,8 @@ export function SiteHeader({ mode = "overlay" }) {
 
           <div
             className={`${styles.dropdown} ${isOpen ? styles.dropdownOpen : ""}`}
-            onMouseEnter={() => setIsOpen(true)}
-            onMouseLeave={() => setIsOpen(false)}
+            onMouseEnter={scheduleDropdownOpen}
+            onMouseLeave={scheduleDropdownClose}
           >
             <button
               className={`${styles.navLink} ${styles.dropdownTrigger}`}
@@ -149,7 +187,11 @@ export function SiteHeader({ mode = "overlay" }) {
               aria-haspopup="menu"
               aria-expanded={isOpen}
               aria-controls="services-menu"
-              onClick={() => setIsOpen((current) => !current)}
+              onClick={() => {
+                clearDropdownTimer();
+                setIsOpen((current) => !current);
+              }}
+              onFocus={openDropdownImmediately}
             >
               <span>Services</span>
               <ChevronIcon />

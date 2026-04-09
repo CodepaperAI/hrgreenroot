@@ -135,7 +135,7 @@
 }
 
 .dropdownTrigger svg {
-  transition: transform 180ms ease;
+  transition: transform 320ms ease;
 }
 
 .dropdown {
@@ -149,7 +149,7 @@
 
 .dropdownMenu {
   position: absolute;
-  top: calc(100% + 1rem);
+  top: calc(100% + 0.7rem);
   right: -0.25rem;
   width: min(44rem, 86vw);
   padding: 0.8rem;
@@ -160,7 +160,7 @@
   opacity: 0;
   pointer-events: none;
   transform: translateY(10px);
-  transition: opacity 180ms ease, transform 180ms ease;
+  transition: opacity 320ms ease, transform 320ms ease;
 }
 
 .dropdown:hover .dropdownMenu,
@@ -240,6 +240,19 @@
 :global(.site-header-wrap.is-compact) .navWrap {
   padding: 0.88rem 1rem 0.88rem 1.3rem;
   border-radius: 0 0 1.7rem 1.7rem;
+}
+
+@media (min-width: 761px) {
+  .dropdownOpen::after,
+  .dropdown:hover::after,
+  .dropdown:focus-within::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    right: -0.25rem;
+    width: min(44rem, 86vw);
+    height: 0.8rem;
+  }
 }
 
 @media (max-width: 1180px) {
