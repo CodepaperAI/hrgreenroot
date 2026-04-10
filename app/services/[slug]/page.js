@@ -8,8 +8,9 @@ export function generateStaticParams() {
   return services.map((service) => ({ slug: service.slug }));
 }
 
-export function generateMetadata({ params }) {
-  const service = getServiceBySlug(params.slug);
+export async function generateMetadata({ params }) {
+  const { slug } = await params;
+  const service = getServiceBySlug(slug);
   if (!service) {
     return {};
   }
@@ -284,8 +285,9 @@ function renderVariantSections(service) {
   );
 }
 
-export default function ServicePage({ params }) {
-  const service = getServiceBySlug(params.slug);
+export default async function ServicePage({ params }) {
+  const { slug } = await params;
+  const service = getServiceBySlug(slug);
 
   if (!service) {
     notFound();

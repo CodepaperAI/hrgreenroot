@@ -10,6 +10,27 @@ const companyLinks = [
   ["Contact Us", "/contact"],
 ];
 
+const serviceCities = [
+  "Toronto",
+  "Mississauga",
+  "Brampton",
+  "Richmond Hill",
+  "North York",
+  "Thornhill",
+  "Etobicoke",
+  "Scarborough",
+  "Ajax",
+  "Oshawa",
+  "Niagara Region",
+  "Guelph",
+  "Cambridge",
+  "Kitchener",
+  "London",
+  "Newmarket",
+  "Aurora",
+  "Barrie",
+];
+
 function LeafMark() {
   return (
     <svg className={styles.leafMark} viewBox="0 0 48 48" aria-hidden="true">
@@ -94,7 +115,13 @@ export function SiteFooter() {
 
           <section className={styles.column}>
             <h4>Service Areas</h4>
-            <p className={styles.serviceAreas}>{contact.serviceAreas}</p>
+            <div className={styles.serviceAreaList}>
+              {serviceCities.map((city) => (
+                <span key={city} className={styles.serviceAreaTag}>
+                  {city}
+                </span>
+              ))}
+            </div>
           </section>
 
           <section className={styles.column}>

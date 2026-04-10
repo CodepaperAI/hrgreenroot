@@ -1,8 +1,9 @@
 import { services } from "@/lib/full-site-data";
+import { getPublishedBlogSlugs } from "@/lib/uplift-blog";
 
 const siteUrl = "https://hrgreenrootslandscaping.com";
 
-export default function sitemap() {
+export default async function sitemap() {
   const staticRoutes = ["", "/portfolio", "/blog", "/contact"].map((path) => ({
     url: `${siteUrl}${path || "/"}`,
     lastModified: new Date(),
@@ -13,5 +14,10 @@ export default function sitemap() {
     lastModified: new Date(),
   }));
 
-  return [...staticRoutes, ...serviceRoutes];
+  const blogRoutes = (await getPublishedBlogSlugs()).map((slug) => ({
+    url: `${siteUrl}/blog/${slug}`,
+    lastModified: new Date(),
+  }));
+
+  return [...staticRoutes, ...serviceRoutes, ...blogRoutes];
 }

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { SiteChrome } from "@/components/SiteChrome";
 import { blog, portfolioImages, services } from "@/lib/full-site-data";
+import { getPublishedBlogs } from "@/lib/uplift-blog";
 import styles from "../routes-theme.module.css";
 
 const title = "Landscaping Tips and Resource Guides";
@@ -31,6 +32,8 @@ export const metadata = {
   },
 };
 
+export const revalidate = 3600;
+
 function ArrowIcon() {
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -46,27 +49,43 @@ function ArrowIcon() {
   );
 }
 
-export default function BlogPage() {
-  const resourceCards = [
+export default async function BlogPage() {
+  const fallbackCards = [
     {
       title: "How to plan a front yard that still looks clean after one season.",
       text: "A practical look at layout, edging, and maintenance-minded planting choices.",
       image: portfolioImages[0],
       href: "/services/landscape-design",
+      eyebrow: "Guide",
     },
     {
       title: "When interlock, retaining walls, and planting should be planned together.",
       text: "A stronger outdoor result usually comes from coordinating structure and greenery early.",
       image: portfolioImages[1],
       href: "/services/interlocking-pavers",
+      eyebrow: "Guide",
     },
     {
       title: "What homeowners should ask before booking a landscaping quote.",
       text: "Scope, budget, timing, and maintenance expectations make estimates easier to compare.",
       image: portfolioImages[3],
       href: "/contact",
+      eyebrow: "Guide",
     },
   ];
+  const upliftBlogs = await getPublishedBlogs({ limit: 6 });
+  const resourceCards = upliftBlogs.length
+    ? upliftBlogs.slice(0, 6).map((item, index) => ({
+        title: item.title,
+        text: item.excerpt,
+        image: {
+          src: item.featuredImage || portfolioImages[index % portfolioImages.length].src,
+          alt: item.title,
+        },
+        href: `/blog/${item.slug}`,
+        eyebrow: item.categories[0] || "Uplift Article",
+      }))
+    : fallbackCards;
 
   return (
     <SiteChrome>
@@ -114,7 +133,11 @@ export default function BlogPage() {
         <section className={styles.section}>
           <div className={`${styles.sectionHeading} reveal`}>
             <p className={styles.eyebrow}>Featured Reads</p>
-            <h2>Editorial cards structured in the same visual system as the rest of the website.</h2>
+            <h2>
+              {upliftBlogs.length
+                ? "Latest published posts pulled automatically from your Uplift blog feed."
+                : "Editorial cards structured in the same visual system as the rest of the website."}
+            </h2>
           </div>
 
           <div className={styles.postGrid}>
@@ -123,7 +146,7 @@ export default function BlogPage() {
                 <div className={styles.postImage}>
                   <img src={card.image.src} alt={card.image.alt} loading="lazy" />
                 </div>
-                <p className={styles.cardEyebrow}>Guide</p>
+                <p className={styles.cardEyebrow}>{card.eyebrow}</p>
                 <h3>{card.title}</h3>
                 <p>{card.text}</p>
                 <Link className={styles.inlineLink} href={card.href}>

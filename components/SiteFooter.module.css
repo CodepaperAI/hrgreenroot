@@ -140,12 +140,25 @@
   box-shadow: 0 0 0 4px rgba(43, 98, 42, 0.16);
 }
 
-.serviceAreas {
-  margin: 0;
-  font-size: 0.88rem;
-  line-height: 1.65;
-  color: rgba(244, 250, 239, 0.7);
-  font-weight: 400;
+.serviceAreaList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.serviceAreaTag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2rem;
+  padding: 0.45rem 0.72rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(244, 250, 239, 0.82);
+  font-size: 0.82rem;
+  line-height: 1.2;
+  font-weight: 700;
 }
 
 .contactStack {
