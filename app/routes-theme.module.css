@@ -254,6 +254,10 @@
   line-height: 1.25;
 }
 
+.heroFact strong span {
+  margin-left: 0.08em;
+}
+
 .statCard,
 .card,
 .formPanel,
@@ -483,6 +487,15 @@
 
 .postCard:hover .postImage img {
   transform: scale(1.04);
+}
+
+.postMeta {
+  margin: -0.35rem 0 0;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--muted);
 }
 
 .inlineLink {

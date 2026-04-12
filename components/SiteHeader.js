@@ -4,12 +4,11 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { services } from "@/lib/full-site-data";
+import { contact, services } from "@/lib/full-site-data";
 import styles from "./SiteHeader.module.css";
 
 const primaryLinks = [
   { label: "Home", href: "/" },
-  { label: "About", href: "/#about" },
   { label: "Project", href: "/portfolio" },
   { label: "Resources", href: "/blog" },
   { label: "Contact", href: "/contact" },
@@ -38,6 +37,21 @@ function ChevronIcon() {
         fill="none"
         stroke="currentColor"
         strokeWidth="1.4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function PhoneIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        d="M7.3 4.8h2.2l1.2 3.7-1.6 1.6a14 14 0 0 0 4.8 4.8l1.6-1.6 3.7 1.2v2.2a1.7 1.7 0 0 1-1.9 1.7A15 15 0 0 1 5.6 6.7 1.7 1.7 0 0 1 7.3 4.8Z"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
@@ -143,10 +157,10 @@ export function SiteHeader({ mode = "overlay" }) {
       <Link className={styles.brand} href="/" aria-label="HR Greenroots Landscaping home">
         <Image
           className={styles.brandLogo}
-          src="/hr-greenroots-logo-cropped.png"
+          src="/hr-greenroots-logo-transparent.png"
           alt="HR Greenroots Landscaping"
-          width={1103}
-          height={690}
+          width={1066}
+          height={680}
           priority
         />
       </Link>
@@ -217,6 +231,11 @@ export function SiteHeader({ mode = "overlay" }) {
             </Link>
           ))}
         </nav>
+
+        <a className={styles.callButton} href={contact.phoneHref} onClick={handleNavClick}>
+          <PhoneIcon />
+          <span>Call Us</span>
+        </a>
 
         <Link className={styles.cta} href="/contact" onClick={handleNavClick}>
           <span>Request a Quote</span>

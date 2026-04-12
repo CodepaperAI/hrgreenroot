@@ -49,7 +49,7 @@ function ArrowIcon() {
 
 export default function ContactPage() {
   const heroStats = [
-    ["Availability", "Mon-Fri"],
+    ["Availability", "Every day"],
     ["Estimate", "Free quote"],
     ["Coverage", "GTA"],
   ];
@@ -156,7 +156,7 @@ export default function ContactPage() {
 
               <aside className={`${styles.infoCard} reveal`} style={{ transitionDelay: "100ms" }}>
                 <p className={styles.cardEyebrow}>Business Hours</p>
-                <h3>Available during normal operating hours.</h3>
+                <h3>Available every day.</h3>
                 <div className={styles.hoursList}>
                   {contact.hours.map((entry) => (
                     <div className={styles.hourRow} key={entry.day}>

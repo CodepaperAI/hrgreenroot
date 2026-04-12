@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { contact, services } from "@/lib/full-site-data";
 import styles from "./SiteFooter.module.css";
@@ -30,15 +31,6 @@ const serviceCities = [
   "Aurora",
   "Barrie",
 ];
-
-function LeafMark() {
-  return (
-    <svg className={styles.leafMark} viewBox="0 0 48 48" aria-hidden="true">
-      <path d="M24 42c8.1-5.4 14.4-15.2 14.4-28.2-8.8 1.2-14.3 5.2-17.7 10.7C18 19 12.5 15 3.7 13.8 3.7 26.8 10 36.6 18.1 42V27.7h5.9V42Z" />
-      <path d="M24.1 22.4c3.7-6.6 9.4-10 17.2-10.8-3.4 7.9-9 12.4-17.2 13.6-8.3-1.2-13.9-5.7-17.2-13.6 7.8.8 13.5 4.2 17.2 10.8Z" />
-    </svg>
-  );
-}
 
 function InstagramIcon() {
   return (
@@ -75,14 +67,14 @@ export function SiteFooter() {
       <div className={styles.shell}>
         <div className={styles.grid}>
           <section className={styles.columnWide}>
-            <Link className={styles.brand} href="/">
-              <span className={styles.brandIcon}>
-                <LeafMark />
-              </span>
-              <span>
-                <strong>Greenroots</strong>
-                <small>Landscape &amp; Gardening</small>
-              </span>
+            <Link className={styles.brand} href="/" aria-label="HR Greenroots Landscaping home">
+              <Image
+                className={styles.brandLogo}
+                src="/hr-greenroots-logo-transparent.png"
+                alt="HR Greenroots Landscaping"
+                width={1066}
+                height={680}
+              />
             </Link>
             <h3>Professional Landscaping Solutions</h3>
             <p>

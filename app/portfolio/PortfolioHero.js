@@ -20,21 +20,24 @@ function ArrowIcon() {
   );
 }
 
-function StatCard({ label, value }) {
+function StatCard({ label, value, suffix = "" }) {
   const [ref, inView] = useInView({ threshold: 0.5 });
-  const count = useCountUp(value, 2000, inView);
+  const count = typeof value === "number" ? useCountUp(value, 2000, inView) : value;
   return (
     <article ref={ref} className={`${styles.heroFact} reveal`}>
       <p className={styles.statLabel}>{label}</p>
-      <strong>{inView ? count : "0"}</strong>
+      <strong>
+        {typeof value === "number" ? (inView ? count : "0") : value}
+        {suffix ? <span>{suffix}</span> : null}
+      </strong>
     </article>
   );
 }
 
 const stats = [
-  ["Projects", "150+"],
-  ["Focus", "Planting + hardscape"],
-  ["Coverage", "Homes + commercial"],
+  { label: "Projects", value: 150, suffix: "+" },
+  { label: "Focus", value: "Planting + hardscape" },
+  { label: "Coverage", value: "Homes + commercial" },
 ];
 
 export function PortfolioHero() {
@@ -66,8 +69,8 @@ export function PortfolioHero() {
       </div>
 
       <div className={styles.heroFacts}>
-        {stats.map(([label, value]) => (
-          <StatCard key={label} label={label} value={value} />
+        {stats.map((stat) => (
+          <StatCard key={stat.label} label={stat.label} value={stat.value} suffix={stat.suffix} />
         ))}
       </div>
     </div>

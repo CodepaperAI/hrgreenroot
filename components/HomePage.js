@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { contact, getServiceImageAlt, portfolioImages, services } from "@/lib/full-site-data";
 import styles from "./HomePage.module.css";
@@ -13,12 +14,83 @@ const reviewAvatars = [
   "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=120",
   "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=120",
 ];
+let hasPlayedHomeHeroEntrance = false;
+
 const stats = [
-  ["250+", "Projects delivered"],
-  ["4.9", "Average client rating"],
-  ["1 crew", "Design, build, and upkeep"],
+  {
+    value: 150,
+    suffix: "+",
+    label: "Projects Delivered",
+    description:
+      "Landscape installs, hardscape upgrades, and seasonal improvement scopes completed with careful execution.",
+  },
+  {
+    value: 5,
+    suffix: "+",
+    label: "Years Experience",
+    description:
+      "Hands-on outdoor construction and landscaping experience across residential and commercial properties.",
+  },
+  {
+    value: 98,
+    suffix: "%",
+    label: "Client Satisfaction",
+    description:
+      "Clients stay with us because we communicate clearly, show up reliably, and finish work with precision.",
+  },
 ];
 const heroImage = "/hero-background.jpg";
+const marqueeSpeed = 0.07;
+
+function getMarqueeLoopSpan(railElement, firstGroupElement) {
+  if (!railElement || !firstGroupElement || typeof window === "undefined") {
+    return 0;
+  }
+
+  const railStyles = window.getComputedStyle(railElement);
+  const gap = Number.parseFloat(railStyles.columnGap || railStyles.gap || "0");
+
+  return firstGroupElement.offsetWidth + gap;
+}
+
+function getMarqueeStep(shellElement, firstGroupElement) {
+  if (!shellElement || !firstGroupElement || typeof window === "undefined") {
+    return 0;
+  }
+
+  const groupStyles = window.getComputedStyle(firstGroupElement);
+  const gap = Number.parseFloat(groupStyles.columnGap || groupStyles.gap || "0");
+  const firstCard = firstGroupElement.firstElementChild;
+  const firstCardWidth = firstCard instanceof HTMLElement ? firstCard.getBoundingClientRect().width : 0;
+
+  return Math.max(Math.min(shellElement.clientWidth * 0.82, firstCardWidth + gap), 220);
+}
+
+function normalizeMarqueeOffset(offset, loopSpan) {
+  if (!loopSpan) {
+    return 0;
+  }
+
+  let nextOffset = offset;
+
+  while (nextOffset <= -loopSpan) {
+    nextOffset += loopSpan;
+  }
+
+  while (nextOffset > 0) {
+    nextOffset -= loopSpan;
+  }
+
+  return nextOffset;
+}
+
+function applyMarqueeTransform(railElement, offset) {
+  if (!railElement) {
+    return;
+  }
+
+  railElement.style.transform = `translate3d(${offset}px, 0, 0)`;
+}
 
 function ArrowIcon() {
   return (
@@ -36,13 +108,36 @@ function StarIcon() {
   );
 }
 
-function StatCard({ value, label }) {
+function ChevronControlIcon({ direction = "right" }) {
+  const rotation = direction === "left" ? "rotate(180 12 12)" : undefined;
+
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <g transform={rotation}>
+        <path
+          d="M8 12h8m-3.5-3.5L16 12l-3.5 3.5"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.8"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </g>
+    </svg>
+  );
+}
+
+function StatCard({ value, suffix = "", label, description }) {
   const [ref, inView] = useInView({ threshold: 0.5 });
   const count = useCountUp(value, 2000, inView);
   return (
     <article ref={ref} className={styles.statCard}>
-      <p className={styles.statValue}>{inView ? count : "0"}</p>
+      <p className={styles.statValue}>
+        {inView ? count : "0"}
+        <span>{suffix}</span>
+      </p>
       <h3>{label}</h3>
+      <p className={styles.statDescription}>{description}</p>
     </article>
   );
 }
@@ -51,6 +146,207 @@ export function HomePage() {
   const featuredServices = services.slice(0, 3);
   const gallery = portfolioImages.slice(0, 3);
   const marqueeServices = services;
+  const [heroMotionState, setHeroMotionState] = useState(() => (
+    hasPlayedHomeHeroEntrance ? "ready" : "pending"
+  ));
+  const marqueeShellRef = useRef(null);
+  const marqueeRailRef = useRef(null);
+  const marqueeFirstGroupRef = useRef(null);
+  const marqueePausedRef = useRef(false);
+  const marqueePauseUntilRef = useRef(0);
+  const marqueeOffsetRef = useRef(0);
+  const marqueeTargetOffsetRef = useRef(null);
+
+  useLayoutEffect(() => {
+    if (typeof window === "undefined") {
+      return undefined;
+    }
+
+    const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let frameOne = 0;
+    let frameTwo = 0;
+
+    function settleHero(state = "ready") {
+      setHeroMotionState(state);
+      hasPlayedHomeHeroEntrance = true;
+    }
+
+    function scheduleHeroEntrance() {
+      frameOne = window.requestAnimationFrame(() => {
+        frameTwo = window.requestAnimationFrame(() => {
+          settleHero("ready");
+        });
+      });
+    }
+
+    if (reducedMotionQuery.matches) {
+      settleHero("reduced");
+    } else if (!hasPlayedHomeHeroEntrance) {
+      setHeroMotionState("pending");
+      scheduleHeroEntrance();
+    } else {
+      settleHero("ready");
+    }
+
+    function handleReducedMotionChange(event) {
+      if (event.matches) {
+        window.cancelAnimationFrame(frameOne);
+        window.cancelAnimationFrame(frameTwo);
+        settleHero("reduced");
+      }
+    }
+
+    reducedMotionQuery.addEventListener("change", handleReducedMotionChange);
+
+    return () => {
+      window.cancelAnimationFrame(frameOne);
+      window.cancelAnimationFrame(frameTwo);
+      reducedMotionQuery.removeEventListener("change", handleReducedMotionChange);
+    };
+  }, []);
+
+  useEffect(() => {
+    const marqueeShell = marqueeShellRef.current;
+    const marqueeRail = marqueeRailRef.current;
+    const marqueeFirstGroup = marqueeFirstGroupRef.current;
+
+    if (!marqueeShell || !marqueeRail || !marqueeFirstGroup) {
+      return undefined;
+    }
+
+    const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const stackedLayoutQuery = window.matchMedia("(max-width: 760px)");
+    let frameId = 0;
+    let lastTime = 0;
+
+    function tick(time) {
+      if (!lastTime) {
+        lastTime = time;
+      }
+
+      const delta = time - lastTime;
+      lastTime = time;
+      const loopSpan = getMarqueeLoopSpan(marqueeRail, marqueeFirstGroup);
+
+      if (!loopSpan || stackedLayoutQuery.matches) {
+        applyMarqueeTransform(marqueeRail, 0);
+        frameId = window.requestAnimationFrame(tick);
+        return;
+      }
+
+      if (marqueeTargetOffsetRef.current !== null) {
+        const targetOffset = marqueeTargetOffsetRef.current;
+        const distance = targetOffset - marqueeOffsetRef.current;
+        const easing = 1 - Math.exp(-delta / 180);
+        const nextOffset = marqueeOffsetRef.current + (distance * easing);
+
+        marqueeOffsetRef.current = nextOffset;
+
+        if (Math.abs(targetOffset - nextOffset) < 0.6) {
+          marqueeOffsetRef.current = normalizeMarqueeOffset(targetOffset, loopSpan);
+          marqueeTargetOffsetRef.current = null;
+        }
+      } else if (
+        !reducedMotionQuery.matches &&
+        !marqueePausedRef.current &&
+        time >= marqueePauseUntilRef.current
+      ) {
+        marqueeOffsetRef.current -= delta * marqueeSpeed;
+      }
+
+      if (marqueeTargetOffsetRef.current === null) {
+        marqueeOffsetRef.current = normalizeMarqueeOffset(marqueeOffsetRef.current, loopSpan);
+      }
+
+      applyMarqueeTransform(marqueeRail, marqueeOffsetRef.current);
+      frameId = window.requestAnimationFrame(tick);
+    }
+
+    function pauseMarquee() {
+      marqueePausedRef.current = true;
+    }
+
+    function resumeMarquee() {
+      marqueePausedRef.current = false;
+      lastTime = 0;
+    }
+
+    function resetMarqueeMode() {
+      marqueePauseUntilRef.current = 0;
+      marqueePausedRef.current = false;
+      marqueeTargetOffsetRef.current = null;
+      lastTime = 0;
+
+      if (stackedLayoutQuery.matches) {
+        marqueeOffsetRef.current = 0;
+        applyMarqueeTransform(marqueeRail, 0);
+        return;
+      }
+
+      const loopSpan = getMarqueeLoopSpan(marqueeRail, marqueeFirstGroup);
+      marqueeOffsetRef.current = normalizeMarqueeOffset(marqueeOffsetRef.current, loopSpan);
+      applyMarqueeTransform(marqueeRail, marqueeOffsetRef.current);
+    }
+
+    marqueeShell.addEventListener("pointerenter", pauseMarquee);
+    marqueeShell.addEventListener("pointerleave", resumeMarquee);
+    marqueeShell.addEventListener("focusin", pauseMarquee);
+    marqueeShell.addEventListener("focusout", resumeMarquee);
+    reducedMotionQuery.addEventListener("change", resetMarqueeMode);
+    stackedLayoutQuery.addEventListener("change", resetMarqueeMode);
+    window.addEventListener("resize", resetMarqueeMode);
+
+    resetMarqueeMode();
+    frameId = window.requestAnimationFrame(tick);
+
+    return () => {
+      window.cancelAnimationFrame(frameId);
+      marqueeShell.removeEventListener("pointerenter", pauseMarquee);
+      marqueeShell.removeEventListener("pointerleave", resumeMarquee);
+      marqueeShell.removeEventListener("focusin", pauseMarquee);
+      marqueeShell.removeEventListener("focusout", resumeMarquee);
+      reducedMotionQuery.removeEventListener("change", resetMarqueeMode);
+      stackedLayoutQuery.removeEventListener("change", resetMarqueeMode);
+      window.removeEventListener("resize", resetMarqueeMode);
+    };
+  }, []);
+
+  function scrollMarquee(direction) {
+    const marqueeShell = marqueeShellRef.current;
+    const marqueeRail = marqueeRailRef.current;
+    const marqueeFirstGroup = marqueeFirstGroupRef.current;
+    const stackedLayoutQuery = typeof window !== "undefined" ? window.matchMedia("(max-width: 760px)") : null;
+
+    if (!marqueeShell || !marqueeRail || !marqueeFirstGroup || stackedLayoutQuery?.matches) {
+      return;
+    }
+
+    const loopSpan = getMarqueeLoopSpan(marqueeRail, marqueeFirstGroup);
+    const jumpDistance = getMarqueeStep(marqueeShell, marqueeFirstGroup);
+
+    if (!loopSpan || !jumpDistance) {
+      return;
+    }
+
+    marqueePausedRef.current = false;
+    marqueePauseUntilRef.current = performance.now() + 2600;
+
+    if (direction === "left" && marqueeOffsetRef.current + jumpDistance > 0) {
+      marqueeOffsetRef.current -= loopSpan;
+      applyMarqueeTransform(marqueeRail, marqueeOffsetRef.current);
+    }
+
+    const nextTarget = direction === "left"
+      ? marqueeOffsetRef.current + jumpDistance
+      : marqueeOffsetRef.current - jumpDistance;
+
+    if (direction === "right" && nextTarget <= -loopSpan) {
+      marqueeTargetOffsetRef.current = nextTarget;
+      return;
+    }
+
+    marqueeTargetOffsetRef.current = nextTarget;
+  }
 
   return (
     <main className={styles.page}>
@@ -59,7 +355,13 @@ export function HomePage() {
           <SiteHeader mode="overlay" />
         </div>
 
-        <div className={styles.stage}>
+        <div
+          className={[
+            styles.stage,
+            heroMotionState === "pending" ? styles.stageMotionPending : "",
+            heroMotionState === "reduced" ? styles.stageMotionReduced : "",
+          ].filter(Boolean).join(" ")}
+        >
           <img
             className={styles.stageImage}
             src={heroImage}
@@ -69,14 +371,14 @@ export function HomePage() {
 
           <div className={styles.stageContent}>
             <div className={styles.copy}>
-              <p className={styles.kicker}>Landscape Design &amp; Build</p>
-              <h1>Professional Landscaping Solutions</h1>
-              <p className={styles.lead}>
+              <p className={`${styles.kicker} ${styles.heroEyebrow}`}>Landscape Design &amp; Build</p>
+              <h1 className={styles.heroTitle}>Professional Landscaping Solutions</h1>
+              <p className={`${styles.lead} ${styles.heroLead}`}>
                 We provide end-to-end landscaping services for homeowners, businesses,
                 and large-scale properties, combining expert design, efficient execution,
                 and long-term maintenance solutions.
               </p>
-              <div className={styles.actions}>
+              <div className={`${styles.actions} ${styles.heroActions}`}>
                 <Link className={styles.primaryButton} href="/portfolio">
                   <span>View Our Projects</span>
                   <ArrowIcon />
@@ -85,7 +387,7 @@ export function HomePage() {
               </div>
             </div>
 
-            <aside className={styles.reviewCard}>
+            <aside className={`${styles.reviewCard} ${styles.heroReviewCard}`}>
               <div className={styles.reviewHead}>
                 <div className={styles.reviewAvatars} aria-hidden="true">
                   {reviewAvatars.map((avatar) => <img key={avatar} src={avatar} alt="" />)}
@@ -119,8 +421,14 @@ export function HomePage() {
       </section>
 
       <section className={styles.stats}>
-        {stats.map(([value, label]) => (
-          <StatCard key={label} value={value} label={label} />
+        {stats.map((stat) => (
+          <StatCard
+            key={stat.label}
+            value={stat.value}
+            suffix={stat.suffix}
+            label={stat.label}
+            description={stat.description}
+          />
         ))}
       </section>
 
@@ -157,10 +465,33 @@ export function HomePage() {
           <Link className={styles.inlineLink} href="/contact">Talk through your project <ArrowIcon /></Link>
         </div>
 
-        <div className={styles.marqueeShell}>
-          <div className={styles.marqueeRail}>
+        <div ref={marqueeShellRef} className={styles.marqueeShell}>
+          <div className={styles.marqueeOverlayControls} aria-label="Service carousel controls">
+            <button
+              className={`${styles.marqueeButton} ${styles.marqueeButtonLeft}`}
+              type="button"
+              aria-label="Scroll services left"
+              onClick={() => scrollMarquee("left")}
+            >
+              <ChevronControlIcon direction="left" />
+            </button>
+            <button
+              className={`${styles.marqueeButton} ${styles.marqueeButtonRight}`}
+              type="button"
+              aria-label="Scroll services right"
+              onClick={() => scrollMarquee("right")}
+            >
+              <ChevronControlIcon direction="right" />
+            </button>
+          </div>
+          <div ref={marqueeRailRef} className={styles.marqueeRail}>
             {[0, 1].map((group) => (
-              <div key={group} className={styles.marqueeGroup} aria-hidden={group === 1}>
+              <div
+                key={group}
+                ref={group === 0 ? marqueeFirstGroupRef : undefined}
+                className={styles.marqueeGroup}
+                aria-hidden={group === 1}
+              >
                 {marqueeServices.map((service) => (
                   <Link
                     key={`${group}-${service.slug}`}

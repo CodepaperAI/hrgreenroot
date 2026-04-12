@@ -1,6 +1,11 @@
 .next/
 node_modules/
 *.log
+.codex-temp/
+tmp-chrome-cdp/
+tmp-chrome-profile/
+tmp-mobile-*.png
+tmp-*.html
 
 # local env files
 .env

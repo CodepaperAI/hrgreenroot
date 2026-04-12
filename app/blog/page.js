@@ -34,6 +34,17 @@ export const metadata = {
 
 export const revalidate = 3600;
 
+function formatDate(dateString) {
+  if (!dateString) return "";
+  const date = new Date(dateString);
+  if (Number.isNaN(date.getTime())) return dateString;
+  return new Intl.DateTimeFormat("en-CA", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  }).format(date);
+}
+
 function ArrowIcon() {
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -84,6 +95,7 @@ export default async function BlogPage() {
         },
         href: `/blog/${item.slug}`,
         eyebrow: item.categories[0] || "Uplift Article",
+        publishedDate: formatDate(item.publishDate || item.updatedAt),
       }))
     : fallbackCards;
 
@@ -147,6 +159,7 @@ export default async function BlogPage() {
                   <img src={card.image.src} alt={card.image.alt} loading="lazy" />
                 </div>
                 <p className={styles.cardEyebrow}>{card.eyebrow}</p>
+                {card.publishedDate ? <p className={styles.postMeta}>Published {card.publishedDate}</p> : null}
                 <h3>{card.title}</h3>
                 <p>{card.text}</p>
                 <Link className={styles.inlineLink} href={card.href}>

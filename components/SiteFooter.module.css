@@ -29,56 +29,22 @@
 .columnWide {}
 
 .brand {
-  display: inline-flex;
-  width: fit-content;
-  align-items: center;
-  gap: 0.85rem;
-  color: inherit;
+  display: block;
+  width: clamp(12rem, 20vw, 15rem);
+  max-width: 100%;
   text-decoration: none;
 }
 
-.brand span:last-child {
-  display: grid;
-  gap: 0.18rem;
+.brandLogo {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
 }
 
-.brand strong,
-.brand small,
 .columnWide h3,
 .column h4 {
   font-family: var(--font-body);
-}
-
-.brand strong {
-  font-size: clamp(1.3rem, 2.2vw, 1.8rem);
-  line-height: 1;
-  letter-spacing: -0.05em;
-  color: #f5fbef;
-}
-
-.brand small {
-  color: rgba(244, 250, 239, 0.68);
-  font-size: 0.82rem;
-  letter-spacing: 0.02em;
-}
-
-.brandIcon {
-  display: inline-grid;
-  place-items: center;
-  width: 3.3rem;
-  height: 3.3rem;
-  border-radius: 1.15rem;
-  background: linear-gradient(180deg, rgba(43, 98, 42, 0.28), rgba(43, 98, 42, 0.1));
-}
-
-.leafMark {
-  width: 2rem;
-  height: 2rem;
-  color: #2b622a;
-}
-
-.leafMark path {
-  fill: currentColor;
 }
 
 .columnWide h3,
