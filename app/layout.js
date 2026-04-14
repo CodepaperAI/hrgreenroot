@@ -1,8 +1,10 @@
+import Script from "next/script";
 import "./globals.css";
 
 const siteUrl = "https://hrgreenrootslandscaping.com/";
 const defaultDescription =
   "HR Greenroots Landscaping provides landscaping, hardscaping, sod installation, interlocking, deck, fence, and garden design services across Mississauga and the GTA.";
+const googleAnalyticsId = "G-ZDQJHLKZ0Q";
 
 export const metadata = {
   metadataBase: new URL(siteUrl),
@@ -46,7 +48,21 @@ export const viewport = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsId}`}
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){window.dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${googleAnalyticsId}');
+          `}
+        </Script>
+        {children}
+      </body>
     </html>
   );
 }
