@@ -2,6 +2,7 @@ import Link from "next/link";
 import { SiteChrome } from "@/components/SiteChrome";
 import { contact, portfolioImages } from "@/lib/full-site-data";
 import styles from "../routes-theme.module.css";
+import { ContactForm } from "./ContactForm";
 
 const title = "Contact HR Greenroots Landscaping";
 const description =
@@ -108,40 +109,7 @@ export default function ContactPage() {
 
         <section className={styles.section}>
           <div className={styles.formShell}>
-            <form className={`${styles.formPanel} reveal`}>
-              <div className={styles.formIntro}>
-                <p className={styles.eyebrow}>Get In Touch</p>
-                <h2>Request a free quote.</h2>
-                <p>Tell us about your property, timing, and the result you want to achieve.</p>
-              </div>
-
-              <div className={styles.formGrid}>
-                <label>
-                  <span>Name</span>
-                  <input type="text" placeholder="Your name" />
-                </label>
-                <label>
-                  <span>Email</span>
-                  <input type="email" placeholder="Your email" />
-                </label>
-                <label>
-                  <span>Phone</span>
-                  <input type="tel" placeholder="Your phone number" />
-                </label>
-                <label>
-                  <span>Address</span>
-                  <input type="text" placeholder="Project address" />
-                </label>
-                <label>
-                  <span>Project Details</span>
-                  <textarea rows="6" placeholder="Let us know the details of what you are looking for, and we'll contact you with a quote." />
-                </label>
-                <button className={styles.primaryButton} type="submit">
-                  <span>Send Inquiry</span>
-                  <ArrowIcon />
-                </button>
-              </div>
-            </form>
+            <ContactForm />
 
             <div className={styles.contentGrid}>
               <aside className={`${styles.infoCard} reveal`}>
