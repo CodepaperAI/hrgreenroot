@@ -147,8 +147,8 @@ export default async function BlogPage() {
             <p className={styles.eyebrow}>Featured Reads</p>
             <h2>
               {upliftBlogs.length
-                ? "Latest published posts pulled automatically from your Uplift blog feed."
-                : "Editorial cards structured in the same visual system as the rest of the website."}
+                ? "Fresh insights on landscaping, hardscape, and outdoor living."
+                : "Guides and planning notes for your next outdoor project."}
             </h2>
           </div>
 
