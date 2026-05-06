@@ -149,6 +149,36 @@ export function HomePage() {
   const [heroMotionState, setHeroMotionState] = useState(() => (
     hasPlayedHomeHeroEntrance ? "ready" : "pending"
   ));
+  const [googleReview, setGoogleReview] = useState(null);
+  const [reviewIndex, setReviewIndex] = useState(0);
+
+  useEffect(() => {
+    let active = true;
+    fetch("/api/google-reviews")
+      .then((response) => response.json())
+      .then((payload) => {
+        if (active && payload?.source === "google") {
+          setGoogleReview(payload);
+        }
+      })
+      .catch(() => {});
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const reviewCount = googleReview?.reviews?.length ?? 0;
+
+  useEffect(() => {
+    if (reviewCount < 2) return undefined;
+    const id = setInterval(() => {
+      setReviewIndex((prev) => (prev + 1) % reviewCount);
+    }, 10000);
+    return () => clearInterval(id);
+  }, [reviewCount]);
+
+  const activeReview = googleReview?.reviews?.[reviewIndex] ?? null;
+
   const marqueeShellRef = useRef(null);
   const marqueeRailRef = useRef(null);
   const marqueeFirstGroupRef = useRef(null);
@@ -392,17 +422,39 @@ export function HomePage() {
                 <div className={styles.reviewAvatars} aria-hidden="true">
                   {reviewAvatars.map((avatar) => <img key={avatar} src={avatar} alt="" />)}
                 </div>
-                <p>Based on verified client reviews</p>
+                <p>
+                  {googleReview
+                    ? `${googleReview.userRatingCount}+ verified Google reviews`
+                    : "Based on verified client reviews"}
+                </p>
               </div>
-              <p className={styles.reviewQuote}>
-                Our landscape has never looked better, professional and always on time.
+              <p
+                key={activeReview ? `${reviewIndex}-${activeReview.id}` : "fallback"}
+                className={`${styles.reviewQuote} ${activeReview ? styles.reviewQuoteFade : ""}`}
+              >
+                {activeReview?.text
+                  ? `“${activeReview.text.length > 140
+                      ? `${activeReview.text.slice(0, 140).trimEnd()}…`
+                      : activeReview.text}”`
+                  : "Our landscape has never looked better, professional and always on time."}
+                {activeReview?.authorName ? (
+                  <span className={styles.reviewAuthor}> — {activeReview.authorName}</span>
+                ) : null}
               </p>
               <div className={styles.reviewFoot}>
                 <div className={styles.scoreWrap}>
-                  <span className={styles.score}>4.9</span>
+                  <span className={styles.score}>
+                    {googleReview ? Number(googleReview.rating).toFixed(1) : "4.9"}
+                  </span>
                   <StarIcon />
                 </div>
-                <p>Average client rating</p>
+                {googleReview?.googleMapsUri ? (
+                  <a href={googleReview.googleMapsUri} target="_blank" rel="noreferrer">
+                    View on Google
+                  </a>
+                ) : (
+                  <p>Average client rating</p>
+                )}
               </div>
             </aside>
           </div>
