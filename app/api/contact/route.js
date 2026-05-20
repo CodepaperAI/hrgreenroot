@@ -33,15 +33,20 @@ export async function POST(request) {
   const address = (payload.address || "").toString().trim();
   const message = (payload.message || "").toString().trim();
 
-  if (!name || !email || !message) {
+  if (!name || !email || !phone || !message) {
     return Response.json(
-      { ok: false, error: "Please provide your name, email, and project details." },
+      { ok: false, error: "Please provide your name, email, phone, and project details." },
       { status: 400 }
     );
   }
 
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return Response.json({ ok: false, error: "Please enter a valid email." }, { status: 400 });
+  }
+
+  const phoneDigits = phone.replace(/\D/g, "");
+  if (phoneDigits.length < 7) {
+    return Response.json({ ok: false, error: "Please enter a valid phone number." }, { status: 400 });
   }
 
   const subject = `New website inquiry from ${name}`;

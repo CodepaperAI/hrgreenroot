@@ -84,7 +84,15 @@ export function ContactForm() {
         </label>
         <label>
           <span>Phone</span>
-          <input name="phone" type="tel" placeholder="Your phone number" autoComplete="tel" />
+          <input
+            name="phone"
+            type="tel"
+            placeholder="Your phone number"
+            autoComplete="tel"
+            required
+            pattern="[0-9+()\-\s]{7,}"
+            title="Please enter a valid phone number (at least 7 digits)"
+          />
         </label>
         <label>
           <span>Address</span>
