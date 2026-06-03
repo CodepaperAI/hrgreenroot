@@ -1,4 +1,5 @@
 import Script from "next/script";
+import { FloatingWhatsAppButton } from "@/components/FloatingWhatsAppButton";
 import "./globals.css";
 
 const siteUrl = "https://hrgreenrootslandscaping.com/";
@@ -84,6 +85,7 @@ export default function RootLayout({ children }) {
           `}
         </Script>
         {children}
+        <FloatingWhatsAppButton />
       </body>
     </html>
   );

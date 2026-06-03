@@ -107,6 +107,52 @@ main { padding-top: 0; }
   white-space: nowrap;
   border: 0;
 }
+.floating-whatsapp {
+  position: fixed;
+  right: calc(1.35rem + env(safe-area-inset-right));
+  bottom: calc(1.35rem + env(safe-area-inset-bottom));
+  z-index: 80;
+  display: inline-grid;
+  place-items: center;
+  width: clamp(3.55rem, 5vw, 4.15rem);
+  height: clamp(3.55rem, 5vw, 4.15rem);
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  border-radius: 50%;
+  background: linear-gradient(180deg, #25d366 0%, #128c48 100%);
+  color: #fff;
+  box-shadow: 0 18px 38px rgba(18, 140, 72, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.32);
+  isolation: isolate;
+  transition: transform 180ms ease, box-shadow 180ms ease, filter 180ms ease;
+}
+.floating-whatsapp::before {
+  content: "";
+  position: absolute;
+  inset: -0.5rem;
+  z-index: -1;
+  border-radius: inherit;
+  background: rgba(37, 211, 102, 0.16);
+  opacity: 0;
+  transform: scale(0.82);
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+.floating-whatsapp svg {
+  width: 1.75rem;
+  height: 1.75rem;
+}
+.floating-whatsapp:hover {
+  transform: translateY(-2px);
+  filter: saturate(1.08);
+  box-shadow: 0 22px 44px rgba(18, 140, 72, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.34);
+}
+.floating-whatsapp:hover::before,
+.floating-whatsapp:focus-visible::before {
+  opacity: 1;
+  transform: scale(1);
+}
+.floating-whatsapp:focus-visible {
+  outline: 3px solid rgba(37, 211, 102, 0.34);
+  outline-offset: 4px;
+}
 .top-nav {
   display: flex;
   align-items: center;
@@ -1368,6 +1414,16 @@ input, textarea { width: 100%; border: 1px solid var(--line); border-radius: 18p
 }
 
 @media (max-width: 640px) {
+  .floating-whatsapp {
+    right: calc(0.9rem + env(safe-area-inset-right));
+    bottom: calc(0.9rem + env(safe-area-inset-bottom));
+    width: 3.55rem;
+    height: 3.55rem;
+  }
+  .floating-whatsapp svg {
+    width: 1.55rem;
+    height: 1.55rem;
+  }
   .site-header-wrap {
     inset: 0 0 auto;
     padding-top: 0.65rem;
@@ -1569,7 +1625,6 @@ input, textarea { width: 100%; border: 1px solid var(--line); border-radius: 18p
   *, *::before, *::after { animation: none !important; transition: none !important; }
   .services-marquee-track { transform: none !important; }
 }
-
 
 
 
