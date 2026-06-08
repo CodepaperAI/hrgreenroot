@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import styles from "../routes-theme.module.css";
 
 function ArrowIcon() {
@@ -19,6 +20,7 @@ function ArrowIcon() {
 }
 
 export function ContactForm() {
+  const router = useRouter();
   const [status, setStatus] = useState("idle");
   const [feedback, setFeedback] = useState("");
 
@@ -55,11 +57,12 @@ export function ContactForm() {
       }
 
       setStatus("sent");
-      setFeedback("Thanks — your inquiry is on its way. We'll be in touch shortly.");
+      setFeedback("Thanks - your inquiry is on its way. We'll be in touch shortly.");
       formEl.reset();
+      router.push("/thank-you");
     } catch {
       setStatus("error");
-      setFeedback("Network issue — please try again or reach us by phone or WhatsApp.");
+      setFeedback("Network issue - please try again or reach us by phone or WhatsApp.");
     }
   }
 
@@ -108,7 +111,7 @@ export function ContactForm() {
           />
         </label>
         <button className={styles.primaryButton} type="submit" disabled={sending} aria-busy={sending}>
-          <span>{sending ? "Sending…" : "Send Inquiry"}</span>
+          <span>{sending ? "Sending..." : "Send Inquiry"}</span>
           <ArrowIcon />
         </button>
 
