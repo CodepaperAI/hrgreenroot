@@ -1,7 +1,5 @@
 import { Resend } from "resend";
 
-const contactEmailCc = ["harsh@codepaper.com", "uday@codepaper.com"];
-
 const escapeHtml = (value = "") =>
   String(value)
     .replace(/&/g, "&amp;")
@@ -87,7 +85,6 @@ export async function POST(request) {
     const { error } = await resend.emails.send({
       from,
       to,
-      cc: contactEmailCc,
       replyTo: email,
       subject,
       text: plain,
