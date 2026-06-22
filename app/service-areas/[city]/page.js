@@ -95,7 +95,7 @@ export default async function CityPage({ params }) {
         <section className={`${styles.section} ${styles.relatedSection}`}>
           <div className={`${styles.sectionHeading} reveal`}>
             <p className={styles.eyebrow}>Services in {city.name}</p>
-            <h2>What we can do for your {city.name} property.</h2>
+            <h2>A full-service landscaping company in {city.name}.</h2>
           </div>
           <div className={styles.relatedGrid}>
             {cityServices.map((service, index) => (
@@ -146,7 +146,7 @@ export default async function CityPage({ params }) {
           <div className={`${styles.ctaPanel} reveal`}>
             <div>
               <p className={styles.eyebrow}>Ready To Start</p>
-              <h2>Looking for a landscaper in {city.name}?</h2>
+              <h2>Looking for a landscaping contractor in {city.name}?</h2>
               <p>
                 We can walk the property, confirm scope, and put a clear quote in
                 front of you within a few business days.

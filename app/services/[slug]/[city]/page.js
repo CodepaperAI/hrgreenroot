@@ -208,7 +208,7 @@ export default async function ServiceCityPage({ params }) {
         <section className={`${styles.section} ${styles.processSection}`}>
           <div className={`${styles.sectionHeading} reveal`}>
             <p className={styles.eyebrow}>How we work in {city.name}</p>
-            <h2>A predictable sequence from quote to clean-up.</h2>
+            <h2>Working with a trusted {service.name.toLowerCase()} contractor in {city.name}.</h2>
           </div>
           <div className={styles.processGrid}>
             {service.processSteps?.map((step, index) => (
@@ -299,7 +299,7 @@ export default async function ServiceCityPage({ params }) {
           <div className={`${styles.ctaPanel} reveal`}>
             <div>
               <p className={styles.eyebrow}>Ready To Start</p>
-              <h2>Need {service.name.toLowerCase()} in {city.name}?</h2>
+              <h2>Hire a {service.name.toLowerCase()} company in {city.name}.</h2>
               <p>
                 We can walk the site, confirm scope, and recommend the right next
                 step for your property, timing, and budget.
