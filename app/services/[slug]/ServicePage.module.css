@@ -47,6 +47,26 @@
   align-items: center;
 }
 
+.heroShellSolo {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(1.5rem, 4vw, 4rem);
+  align-items: center;
+  max-width: 60rem;
+}
+
+.heroShellSolo .heroCopy {
+  max-width: 56rem;
+}
+
+/* Programmatic SEO pages (city, service x city) need a wider H1 since city
+   names push past the original 10ch limit. */
+.heroShellSolo .heroCopy h1,
+.heroShell .heroCopy h1.seoH1 {
+  max-width: 24ch;
+  font-size: clamp(2.75rem, 5.8vw, 4.75rem);
+}
+
 .variantVisual {}
 
 .variantCopy .heroShell {

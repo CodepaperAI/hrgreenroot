@@ -1,35 +1,16 @@
 import Image from "next/image";
 import Link from "next/link";
 import { contact, services } from "@/lib/full-site-data";
+import { locations } from "@/lib/seo/locations";
 import styles from "./SiteFooter.module.css";
 
 const companyLinks = [
   ["About Us", "/#about"],
   ["Project", "/#projects"],
   ["Services", "/#services"],
+  ["Service Areas", "/service-areas"],
   ["Blog", "/blog"],
   ["Contact Us", "/contact"],
-];
-
-const serviceCities = [
-  "Toronto",
-  "Mississauga",
-  "Brampton",
-  "Richmond Hill",
-  "North York",
-  "Thornhill",
-  "Etobicoke",
-  "Scarborough",
-  "Ajax",
-  "Oshawa",
-  "Niagara Region",
-  "Guelph",
-  "Cambridge",
-  "Kitchener",
-  "London",
-  "Newmarket",
-  "Aurora",
-  "Barrie",
 ];
 
 function InstagramIcon() {
@@ -108,10 +89,14 @@ export function SiteFooter() {
           <section className={styles.column}>
             <h4>Service Areas</h4>
             <div className={styles.serviceAreaList}>
-              {serviceCities.map((city) => (
-                <span key={city} className={styles.serviceAreaTag}>
-                  {city}
-                </span>
+              {locations.map((loc) => (
+                <Link
+                  key={loc.slug}
+                  className={styles.serviceAreaTag}
+                  href={`/service-areas/${loc.slug}`}
+                >
+                  {loc.name}
+                </Link>
               ))}
             </div>
           </section>
