@@ -628,6 +628,12 @@
 
 @media (max-width: 1180px) {
   .heroShell,
+  /* Variant-scoped selectors (.variantCopy/.variantProcess .heroShell) carry
+     higher specificity than a bare .heroShell, and media queries add none — so
+     they must be repeated here or the hero never collapses to one column on
+     tablet/mobile, leaving the image card overlapping the copy and CTA. */
+  .variantCopy .heroShell,
+  .variantProcess .heroShell,
   .storyShell,
   .copyLeadShell,
   .processShell,
