@@ -1,8 +1,14 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { SiteChrome } from "@/components/SiteChrome";
+import { CostCalculator } from "@/components/CostCalculator";
 import { contact, getServiceBySlug, getServiceImageAlt, services } from "@/lib/full-site-data";
 import styles from "./ServicePage.module.css";
+
+const CALCULATOR_VARIANTS = {
+  "sod-installation": "sod",
+  "fence-installation": "fence",
+};
 
 export function generateStaticParams() {
   return services.map((service) => ({ slug: service.slug }));
@@ -373,6 +379,17 @@ export default async function ServicePage({ params }) {
         </section>
 
         {renderVariantSections(service)}
+
+        {CALCULATOR_VARIANTS[service.slug] ? (
+          <section className={styles.section}>
+            <SectionHeading
+              eyebrow="Cost Estimator"
+              title={`Estimate your ${service.name.toLowerCase()} cost.`}
+              body="Adjust the details below for an instant ballpark range. Final pricing is confirmed after a quick site visit."
+            />
+            <CostCalculator variant={CALCULATOR_VARIANTS[service.slug]} />
+          </section>
+        ) : null}
 
         <section className={`${styles.section} ${styles.gallerySection}`}>
           <SectionHeading
